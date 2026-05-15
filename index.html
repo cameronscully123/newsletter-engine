@@ -696,9 +696,130 @@
   }
   @keyframes drop { 0%{top:-28px} 60%,100%{top:28px} }
 
+  /* ===== Scroll progress bar ===== */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    z-index: 200;
+    transition: width 0.1s linear;
+  }
+
+  /* ===== Custom cursor ===== */
+  .cursor-dot {
+    position: fixed;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--ink);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+    transition: transform 0.12s ease, width 0.25s ease, height 0.25s ease;
+    will-change: left, top;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(20,17,13,0.28);
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: width 0.35s ease, height 0.35s ease, border-color 0.3s ease, opacity 0.3s ease;
+    will-change: left, top;
+  }
+  .cursor-dot.hovering { transform: translate(-50%, -50%) scale(2.5); }
+  .cursor-ring.hovering { width: 60px; height: 60px; border-color: rgba(20,17,13,0.12); }
+  @media (hover: none) { .cursor-dot, .cursor-ring { display: none; } }
+
+  /* ===== Hero orbs ===== */
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(100px);
+    will-change: transform;
+    z-index: 0;
+  }
+  .hero-orb-1 {
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(47,125,81,0.28) 0%, transparent 70%);
+    top: -280px; left: -160px;
+    animation: orb1 14s ease-in-out infinite;
+  }
+  .hero-orb-2 {
+    width: 540px; height: 540px;
+    background: radial-gradient(circle, rgba(200,166,75,0.2) 0%, transparent 70%);
+    top: -100px; right: -130px;
+    animation: orb2 18s ease-in-out infinite;
+  }
+  .hero-orb-3 {
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(47,125,81,0.15) 0%, transparent 70%);
+    bottom: -80px; left: 38%;
+    animation: orb3 22s ease-in-out infinite;
+  }
+  @keyframes orb1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(50px,36px) scale(1.07)} }
+  @keyframes orb2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-38px,48px) scale(0.93)} }
+  @keyframes orb3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(28px,-34px) scale(1.05)} }
+  @media (max-width: 720px) { .hero-orb { opacity: 0.55; } }
+
+  /* ===== Shimmer text on hero headline ===== */
+  .hero h1 em {
+    background: linear-gradient(120deg, var(--ink) 0%, #3d9467 38%, var(--gold) 56%, var(--ink) 100%);
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: text-shimmer 5s linear infinite;
+  }
+  @keyframes text-shimmer {
+    0%   { background-position: 0%   center; }
+    100% { background-position: 250% center; }
+  }
+
+  /* ===== Dark section subtle grid ===== */
+  .section--dark {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-color: var(--dark);
+  }
+
+  /* ===== Card glow on hover ===== */
+  .test-card { overflow: visible; }
+  .test-card::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(47,125,81,0.18), rgba(200,166,75,0.12));
+    opacity: 0;
+    transition: opacity .35s ease;
+    z-index: -1;
+    filter: blur(14px);
+  }
+  .test-card:hover::after { opacity: 1; }
+  .test-card:hover { box-shadow: 0 28px 52px -18px rgba(20,17,13,0.16); }
+
+  /* ===== Who-card icon glow ===== */
+  .who-card:hover { background: #fbf8f1; box-shadow: inset 0 0 0 1px var(--rule); }
+
+  /* ===== Floating number on how-steps ===== */
+  .how-num { transition: color .4s ease; }
+  .how-step:hover .how-num { color: rgba(47,125,81,0.35); }
+
 </style>
 </head>
 <body>
+
+<div class="progress-bar" id="progress"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
 <!-- ============ NAV ============ -->
 <nav class="nav">
@@ -716,6 +837,9 @@
 
 <!-- ============ HERO ============ -->
 <header class="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
   <span class="hero-ornament left">&#8220;</span>
   <span class="hero-ornament right">&#8221;</span>
   <div class="reading">
@@ -981,22 +1105,97 @@
 </footer>
 
 <script>
-  // Reveal on scroll
+  /* ---- Reveal on scroll ---- */
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        io.unobserve(e.target);
-      }
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // Stagger the hero reveals
+  /* ---- Stagger hero reveals ---- */
   document.querySelectorAll('.hero .reveal').forEach((el, i) => {
     el.style.transitionDelay = (i * 0.09) + 's';
   });
+
+  /* ---- Scroll progress bar ---- */
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const s = document.documentElement;
+    const pct = (s.scrollTop / (s.scrollHeight - s.clientHeight)) * 100;
+    progress.style.width = pct + '%';
+  }, { passive: true });
+
+  /* ---- Custom cursor ---- */
+  const dot  = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let rx = 0, ry = 0, mx = 0, my = 0;
+
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.left = mx + 'px'; dot.style.top = my + 'px'; }, { passive: true });
+
+  (function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  })();
+
+  document.querySelectorAll('a, button, .btn, .test-card, .who-card, .email-card').forEach(el => {
+    el.addEventListener('mouseenter', () => { dot.classList.add('hovering'); ring.classList.add('hovering'); });
+    el.addEventListener('mouseleave', () => { dot.classList.remove('hovering'); ring.classList.remove('hovering'); });
+  });
+
+  /* ---- Magnetic buttons ---- */
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width  / 2;
+      const y = e.clientY - r.top  - r.height / 2;
+      btn.style.transform = `translate(${x * 0.22}px, ${y * 0.22}px)`;
+    });
+    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+  });
+
+  /* ---- Counter animation on stats ---- */
+  function animateCount(el, target, suffix, duration) {
+    let start = null;
+    const isFloat = target % 1 !== 0;
+    function step(ts) {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      const val = isFloat ? (target * ease).toFixed(1) : Math.round(target * ease);
+      el.textContent = val + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const numEl = e.target.querySelector('.num');
+      if (!numEl || numEl.dataset.counted) return;
+      numEl.dataset.counted = '1';
+      const raw = numEl.textContent.trim();
+      const match = raw.match(/([\d.]+)/);
+      if (!match) return;
+      const val = parseFloat(match[1]);
+      const suffix = raw.replace(match[1], '');
+      animateCount(numEl, val, suffix, 1400);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.email-stat').forEach(el => counterObs.observe(el));
+
+  /* ---- Parallax on hero ornaments ---- */
+  const ornLeft  = document.querySelector('.hero-ornament.left');
+  const ornRight = document.querySelector('.hero-ornament.right');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (ornLeft)  ornLeft.style.transform  = `translateY(${y * 0.18}px)`;
+    if (ornRight) ornRight.style.transform = `translateY(${y * 0.12}px)`;
+  }, { passive: true });
 </script>
 </body>
 </html>

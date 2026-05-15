@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blog — Newsletter Engine</title>
+<meta name="description" content="Newsletter strategy, growth tactics, and real client stories from the Newsletter Engine team." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700;1,9..144,800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f1;
+    --bg-warm: #f4efe6;
+    --bg-card: #ffffff;
+    --ink: #14110d;
+    --ink-soft: #2a2620;
+    --muted: #6e6860;
+    --muted-soft: #948e85;
+    --rule: #e6e0d3;
+    --rule-soft: #efe9dc;
+    --dark: #0e0c0a;
+    --dark-2: #181614;
+    --dark-rule: #2a2622;
+    --dark-muted: #9a948a;
+    --accent: #2f7d51;
+    --accent-soft: #d8e9df;
+    --gold: #c8a64b;
+    --serif: 'Fraunces', 'Playfair Display', 'Times New Roman', serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --container: 1100px;
+    --reading: 900px;
+    --shadow-card: 0 1px 0 rgba(20,17,13,0.04), 0 8px 28px -16px rgba(20,17,13,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.7;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--ink); color: var(--bg); }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: var(--container); margin: 0 auto; padding: 0 32px; }
+  .reading { max-width: var(--reading); margin: 0 auto; padding: 0 32px; }
+
+  @media (max-width: 720px) {
+    .wrap, .reading { padding: 0 22px; }
+    body { font-size: 16px; }
+  }
+
+  /* ===== Nav ===== */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 247, 241, 0.78);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .wordmark {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .wordmark .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink); display: inline-block; transform: translateY(-3px); }
+  .nav-links { display: flex; gap: 36px; align-items: center; }
+  .nav-links a {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    position: relative;
+    transition: color .15s ease;
+  }
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -6px;
+    height: 1px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s ease;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+  .nav-links a.active { color: var(--ink); }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 26px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--ink); color: #fff; box-shadow: 0 1px 2px rgba(20,17,13,.18); }
+  .btn-primary:hover { background: #000; transform: translateY(-1px); box-shadow: 0 8px 22px -10px rgba(20,17,13,0.5); }
+  .nav .btn { padding: 11px 20px; font-size: 14px; }
+  @media (max-width: 760px) {
+    .nav-links { display: none; }
+    .nav-inner { padding: 14px 22px; }
+  }
+
+  /* ===== Page header ===== */
+  .page-header {
+    padding: 80px 0 64px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  .page-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 600;
+    letter-spacing: -0.028em;
+    line-height: 1.05;
+    margin: 0 0 20px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .page-header h1 em { font-style: italic; font-weight: 500; }
+  .page-header p {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ===== Filter tabs ===== */
+  .filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    background: transparent;
+    cursor: pointer;
+    transition: all .18s ease;
+    font-family: var(--sans);
+  }
+  .filter-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .filter-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  /* ===== Featured post ===== */
+  .featured {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .featured-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  @media (max-width: 860px) { .featured-inner { grid-template-columns: 1fr; gap: 36px; } }
+
+  .featured-image {
+    background: var(--dark);
+    border-radius: 16px;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    position: relative;
+  }
+  .featured-image-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 30% 40%, rgba(47,125,81,0.18), transparent 60%),
+                radial-gradient(circle at 75% 70%, rgba(200,166,75,0.1), transparent 55%);
+  }
+  .featured-image-text {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 96px;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    user-select: none;
+  }
+  .featured-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+  .featured-label .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .featured-content h2 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3.2vw, 38px);
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    line-height: 1.12;
+    color: var(--ink);
+    margin: 0 0 18px;
+    font-variation-settings: "opsz" 144;
+  }
+  .featured-content h2 em { font-style: italic; font-weight: 500; }
+  .featured-content p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.65;
+    margin: 0 0 28px;
+  }
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .post-meta .avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .avatar.green { background: #4f7a5b; }
+  .avatar.blue { background: #5a7aa8; }
+  .avatar.purple { background: #7e6f9a; }
+  .post-meta .sep { color: var(--rule); }
+  .read-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+    transition: gap .2s ease;
+  }
+  .read-link:hover { gap: 12px; }
+
+  /* ===== Post grid ===== */
+  .posts-section { padding: 64px 0 100px; }
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  @media (max-width: 900px) { .post-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 580px) { .post-grid { grid-template-columns: 1fr; } }
+
+  .post-card {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform .3s ease, box-shadow .3s ease;
+    cursor: pointer;
+  }
+  .post-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+  .post-card-image {
+    aspect-ratio: 16 / 9;
+    background: var(--bg-warm);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .post-card-image .bg-text {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 64px;
+    color: rgba(20,17,13,0.06);
+    user-select: none;
+    line-height: 1;
+  }
+  .post-card-image.dark { background: var(--dark); }
+  .post-card-image.dark .bg-text { color: rgba(255,255,255,0.05); }
+  .post-card-image.green { background: #1e3a28; }
+  .post-card-image.green .bg-text { color: rgba(255,255,255,0.05); }
+  .post-card-image.warm { background: #3a2e1e; }
+  .post-card-image.warm .bg-text { color: rgba(255,255,255,0.05); }
+
+  .tag {
+    position: absolute;
+    top: 14px; left: 14px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .tag.strategy { background: var(--accent-soft); color: var(--accent); }
+  .tag.growth { background: #dce8f5; color: #2e5fa3; }
+  .tag.case-study { background: #f5e8dc; color: #a35e2e; }
+  .tag.monetization { background: #f5dcf0; color: #a32e9a; }
+  .tag.tools { background: #e8f5dc; color: #5ea32e; }
+  .tag.mindset { background: #f5f0dc; color: #a38e2e; }
+
+  .post-card-body { padding: 22px 24px 24px; }
+  .post-card-body h3 {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    color: var(--ink);
+    margin: 0 0 12px;
+    font-variation-settings: "opsz" 144;
+  }
+  .post-card-body h3 em { font-style: italic; font-weight: 500; }
+  .post-card-body p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0 0 18px;
+  }
+  .post-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--rule-soft);
+    padding-top: 14px;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .post-foot .author { display: flex; align-items: center; gap: 8px; }
+  .post-foot .read-time { font-size: 12px; }
+
+  /* ===== Newsletter CTA ===== */
+  .blog-cta {
+    background: var(--dark);
+    border-radius: 20px;
+    padding: 60px 56px;
+    text-align: center;
+    margin: 0 0 100px;
+  }
+  .blog-cta h2 {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 600;
+    color: #f6f1e6;
+    letter-spacing: -0.022em;
+    line-height: 1.1;
+    margin: 0 0 16px;
+    font-variation-settings: "opsz" 144;
+  }
+  .blog-cta h2 em { font-style: italic; font-weight: 500; }
+  .blog-cta p { color: var(--dark-muted); margin: 0 auto 32px; max-width: 460px; font-size: 16px; }
+  .btn-light { background: #fff; color: var(--ink); }
+  .btn-light:hover { background: #f3efe6; transform: translateY(-1px); }
+  .btn .arrow { transition: transform .25s ease; display: inline-block; }
+  .btn:hover .arrow { transform: translateX(4px); }
+  @media (max-width: 600px) { .blog-cta { padding: 40px 28px; } }
+
+  /* ===== Footer ===== */
+  footer { border-top: 1px solid var(--rule); padding: 28px 0; background: var(--bg); }
+  .foot-inner {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .foot-inner a:hover { color: var(--ink); }
+  @media (max-width: 600px) { .foot-inner { flex-direction: column; gap: 10px; text-align: center; } }
+
+  /* ===== Reveal ===== */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="wordmark">Newsletter Engine<span class="dot"></span></a>
+    <div class="nav-links">
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#who">Who it's for</a>
+      <a href="index.html#results">Results</a>
+      <a href="blog.html" class="active">Blog</a>
+    </div>
+    <a href="index.html#cta" class="btn btn-primary">Book a call</a>
+  </div>
+</nav>
+
+<!-- ============ PAGE HEADER ============ -->
+<div class="page-header">
+  <div class="wrap">
+    <span class="eyebrow">The Newsletter Engine Blog</span>
+    <h1>Strategy, growth,<br/>and <em>real results</em>.</h1>
+    <p>Practical newsletter advice from people who write, grow, and monetize them every week.</p>
+  </div>
+</div>
+
+<!-- ============ FILTERS ============ -->
+<div class="wrap">
+  <div class="filters reveal">
+    <button class="filter-btn active">All posts</button>
+    <button class="filter-btn">Strategy</button>
+    <button class="filter-btn">Growth</button>
+    <button class="filter-btn">Monetization</button>
+    <button class="filter-btn">Case Studies</button>
+    <button class="filter-btn">Tools</button>
+  </div>
+</div>
+
+<!-- ============ FEATURED POST ============ -->
+<div class="featured">
+  <div class="wrap">
+    <div class="featured-inner">
+      <div class="featured-image reveal">
+        <div class="featured-image-inner">
+          <span class="featured-image-text">№</span>
+        </div>
+      </div>
+      <div class="featured-content reveal">
+        <div class="featured-label"><span class="dot"></span>Featured</div>
+        <h2>The exact framework we use to <em>write every newsletter</em> in under 60 minutes</h2>
+        <p>After ghostwriting hundreds of newsletters across dozens of industries, we've distilled our process into a repeatable framework. Here's the entire thing, no gatekeeping.</p>
+        <div class="post-meta" style="margin-bottom: 28px;">
+          <span class="avatar green">NE</span>
+          <span>Newsletter Engine Team</span>
+          <span class="sep">·</span>
+          <span>May 12, 2026</span>
+          <span class="sep">·</span>
+          <span>8 min read</span>
+        </div>
+        <a href="#" class="read-link">Read article <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ POST GRID ============ -->
+<div class="posts-section">
+  <div class="wrap">
+    <div class="section-label reveal">Recent posts</div>
+    <div class="post-grid">
+
+      <div class="post-card reveal">
+        <div class="post-card-image dark">
+          <span class="bg-text">54%</span>
+          <span class="tag strategy">Strategy</span>
+        </div>
+        <div class="post-card-body">
+          <h3>Why your open rate is a <em>vanity metric</em> (and what to track instead)</h3>
+          <p>Open rates are easy to game and hard to trust. Here's the number that actually predicts revenue.</p>
+          <div class="post-foot">
+            <div class="author">
+              <span class="avatar green" style="width:26px;height:26px;font-size:10px;">NE</span>
+              NE Team
+            </div>
+            <span class="read-time">5 min read</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-card reveal">
+        <div class="post-card-image green">
+          <span class="bg-text">10×</span>
+          <span class="tag case-study">Case Study</span>
+        </div>
+        <div class="post-card-body">
+          <h3>How Marcus went from 1,200 dormant subs to <em>two high-ticket clients</em> in 90 days</h3>
+          <p>A business coach with a dead list. Here's exactly what we changed and what happened next.</p>
+          <div class="post-foot">
+            <div class="author">
+              <span class="avatar blue" style="width:26px;height:26px;font-size:10px;">MK</span>
+              Marcus K.
+            </div>
+            <span class="read-time">6 min read</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-card reveal">
+        <div class="post-card-image">
+          <span class="bg-text">$$$</span>
+          <span class="tag monetization">Monetization</span>
+        </div>
+        <div class="post-card-body">
+          <h3>The 3 newsletter monetization models that <em>actually work</em> in 2026</h3>
+          <p>Sponsorships are saturated. Here are the three models quietly generating the most revenue right now.</p>
+          <div class="post-foot">
+            <div class="author">
+              <span class="avatar green" style="width:26px;height:26px;font-size:10px;">NE</span>
+              NE Team
+            </div>
+            <span class="read-time">7 min read</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-card reveal">
+        <div class="post-card-image warm">
+          <span class="bg-text">+k</span>
+          <span class="tag growth">Growth</span>
+        </div>
+        <div class="post-card-body">
+          <h3>The referral playbook that added <em>4,000 subscribers</em> in one month</h3>
+          <p>One campaign, one incentive, one mechanic. This is the exact referral setup we run for clients.</p>
+          <div class="post-foot">
+            <div class="author">
+              <span class="avatar purple" style="width:26px;height:26px;font-size:10px;">SR</span>
+              Sophia R.
+            </div>
+            <span class="read-time">4 min read</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-card reveal">
+        <div class="post-card-image">
+          <span class="bg-text">⚙</span>
+          <span class="tag tools">Tools</span>
+        </div>
+        <div class="post-card-body">
+          <h3>Beehiiv vs. ConvertKit vs. Substack — our <em>honest take</em> after using all three</h3>
+          <p>We've launched newsletters on every major platform. Here's what we actually recommend and why.</p>
+          <div class="post-foot">
+            <div class="author">
+              <span class="avatar green" style="width:26px;height:26px;font-size:10px;">NE</span>
+              NE Team
+            </div>
+            <span class="read-time">9 min read</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-card reveal">
+        <div class="post-card-image dark">
+          <span class="bg-text">"</span>
+          <span class="tag mindset">Mindset</span>
+        </div>
+        <div class="post-card-body">
+          <h3>Stop waiting until you have <em>something perfect</em> to say</h3>
+          <p>The biggest mistake experts make with newsletters isn't the writing. It's the waiting. Here's why done beats perfect every time.</p>
+          <div class="post-foot">
+            <div class="author">
+              <span class="avatar green" style="width:26px;height:26px;font-size:10px;">NE</span>
+              NE Team
+            </div>
+            <span class="read-time">3 min read</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============ BLOG CTA ============ -->
+<div class="wrap">
+  <div class="blog-cta reveal">
+    <h2>Ready to stop reading<br/>and <em>start sending</em>?</h2>
+    <p>Book a free 20-minute call and we'll map out your newsletter strategy — whether you work with us or not.</p>
+    <a href="index.html#cta" class="btn btn-light">Book your free strategy call <span class="arrow">→</span></a>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="foot-inner">
+    <span class="wordmark" style="font-size:18px;">Newsletter Engine<span class="dot"></span></span>
+    <span>© 2026 Newsletter Engine. All rights reserved.</span>
+    <a href="mailto:hello@newsletterengine.com">hello@newsletterengine.com</a>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Filter tabs (UI only)
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

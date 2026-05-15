@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Newsletter Engine — Done-for-you newsletters for experts</title>
+<meta name="description" content="We write, design, and send a weekly newsletter your audience actually reads — in your voice, every single week." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700;1,9..144,800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f1;
+    --bg-warm: #f4efe6;
+    --bg-card: #ffffff;
+    --ink: #14110d;
+    --ink-soft: #2a2620;
+    --muted: #6e6860;
+    --muted-soft: #948e85;
+    --rule: #e6e0d3;
+    --rule-soft: #efe9dc;
+    --dark: #0e0c0a;
+    --dark-2: #181614;
+    --dark-rule: #2a2622;
+    --dark-muted: #9a948a;
+    --accent: #2f7d51;
+    --accent-soft: #d8e9df;
+    --gold: #c8a64b;
+    --serif: 'Fraunces', 'Playfair Display', 'Times New Roman', serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --container: 1100px;
+    --reading: 900px;
+    --shadow-card: 0 1px 0 rgba(20,17,13,0.04), 0 8px 28px -16px rgba(20,17,13,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.7;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--ink); color: var(--bg); }
+
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ===== Layout ===== */
+  .wrap { max-width: var(--container); margin: 0 auto; padding: 0 32px; }
+  .reading { max-width: var(--reading); margin: 0 auto; padding: 0 32px; }
+  .section { padding: 120px 0; position: relative; }
+  .section--tight { padding: 96px 0; }
+  .section--dark { background: var(--dark); color: #f3efe6; }
+  .section--warm { background: var(--bg-warm); }
+  .section--white { background: #fff; }
+
+  @media (max-width: 720px) {
+    .section { padding: 80px 0; }
+    .wrap, .reading { padding: 0 22px; }
+    body { font-size: 16px; }
+  }
+
+  /* ===== Typography ===== */
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: inline-block;
+    margin-bottom: 28px;
+  }
+  .section--dark .eyebrow { color: var(--dark-muted); }
+
+  h1, h2, h3, h4 {
+    font-family: var(--serif);
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.022em;
+    line-height: 1.05;
+    margin: 0 0 24px;
+    font-variation-settings: "opsz" 144;
+  }
+  .section--dark h1, .section--dark h2, .section--dark h3, .section--dark h4 { color: #f6f1e6; }
+
+  h1 { font-size: clamp(44px, 7.2vw, 92px); letter-spacing: -0.028em; }
+  h2 { font-size: clamp(36px, 5.2vw, 60px); letter-spacing: -0.025em; }
+  h3 { font-size: clamp(22px, 2.4vw, 28px); letter-spacing: -0.018em; }
+  h4 { font-size: 18px; letter-spacing: -0.01em; }
+
+  em, .italic { font-style: italic; font-weight: 500; }
+  .ink-soft { color: var(--ink-soft); }
+  .muted { color: var(--muted); }
+  .section--dark .muted { color: var(--dark-muted); }
+
+  p.lead {
+    font-size: 19px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 580px;
+    margin: 0 auto 36px;
+    font-weight: 400;
+  }
+  .center { text-align: center; }
+
+  /* ===== Buttons ===== */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 26px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+  }
+  .btn .arrow { transition: transform .25s ease; display: inline-block; }
+  .btn:hover .arrow { transform: translateX(4px); }
+  .btn-primary {
+    background: var(--ink);
+    color: #fff;
+    box-shadow: 0 1px 2px rgba(20,17,13,.18);
+  }
+  .btn-primary:hover { background: #000; transform: translateY(-1px); box-shadow: 0 8px 22px -10px rgba(20,17,13,0.5); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+  }
+  .btn-ghost:hover { background: var(--ink); color: #fff; transform: translateY(-1px); }
+  .btn-light {
+    background: #fff;
+    color: var(--ink);
+  }
+  .btn-light:hover { background: #f3efe6; transform: translateY(-1px); }
+
+  /* ===== Nav ===== */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 247, 241, 0.78);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .wordmark {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .wordmark .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink); display: inline-block; transform: translateY(-3px); }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    align-items: center;
+  }
+  .nav-links a {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    position: relative;
+    transition: color .15s ease;
+  }
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -6px;
+    height: 1px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s ease;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav .btn { padding: 11px 20px; font-size: 14px; }
+
+  @media (max-width: 760px) {
+    .nav-links { display: none; }
+    .nav-inner { padding: 14px 22px; }
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    padding: 100px 0 90px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero h1 {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 32px;
+  }
+  .hero .lead { margin-bottom: 44px; }
+  .hero-ctas {
+    display: inline-flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 36px;
+  }
+  .trust-line {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 26px;
+    color: var(--muted);
+    font-size: 13.5px;
+  }
+  .trust-line .item { display: inline-flex; align-items: center; gap: 8px; }
+  .tick {
+    display: inline-flex;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .tick svg { width: 9px; height: 9px; }
+
+  /* Hero ornament */
+  .hero-ornament {
+    position: absolute;
+    pointer-events: none;
+    font-family: var(--serif);
+    font-style: italic;
+    color: rgba(20,17,13,0.04);
+    font-size: 280px;
+    line-height: 1;
+    z-index: 0;
+    user-select: none;
+  }
+  .hero-ornament.left { top: 80px; left: -30px; }
+  .hero-ornament.right { bottom: 0px; right: -10px; }
+  .hero > * { position: relative; z-index: 1; }
+  @media (max-width: 720px) { .hero-ornament { display: none; } }
+
+  /* ===== Social proof strip ===== */
+  .social-strip {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 36px 0;
+  }
+  .social-inner {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .social-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .social-people {
+    display: flex;
+    gap: 36px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .person {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 13px;
+    color: #fff;
+    letter-spacing: -0.01em;
+    flex-shrink: 0;
+  }
+  .avatar.dusty { background: #6f88a8; }
+  .avatar.purple { background: #7e6f9a; }
+  .avatar.forest { background: #4f7a5b; }
+  .avatar.terra { background: #b8704f; }
+  .avatar.olive { background: #8a8a4a; }
+  .person .meta { line-height: 1.25; }
+  .person .name { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .person .role { font-size: 12px; color: var(--muted); }
+
+  /* ===== Why this matters ===== */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; gap: 56px; } }
+
+  .body-copy p { margin: 0 0 22px; color: var(--ink-soft); }
+  .body-copy p:last-child { margin-bottom: 0; }
+
+  .pull-quote {
+    border-left: 3px solid var(--ink);
+    padding: 6px 0 6px 22px;
+    margin: 32px 0;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--ink);
+    letter-spacing: -0.012em;
+  }
+
+  /* Email preview card */
+  .email-card {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transform: rotate(-0.4deg);
+    transition: transform .4s ease;
+  }
+  .email-card:hover { transform: rotate(0deg) translateY(-4px); }
+  .email-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--rule-soft);
+    background: #faf7f1;
+  }
+  .email-head .dots { display: flex; gap: 6px; }
+  .email-head .dots span { width: 9px; height: 9px; border-radius: 50%; background: #d9d3c4; display: inline-block; }
+  .email-head .from { font-size: 12px; color: var(--muted); }
+  .email-body { padding: 28px 28px 30px; }
+  .email-meta {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .email-subject {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.25;
+    color: var(--ink);
+    margin: 0 0 18px;
+    letter-spacing: -0.015em;
+  }
+  .email-subject em { font-style: italic; font-weight: 500; }
+  .email-body p {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin: 0 0 14px;
+  }
+  .email-link {
+    display: inline-block;
+    font-size: 13px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+    margin-top: 6px;
+  }
+  .email-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--rule-soft);
+    margin-top: 26px;
+    padding-top: 22px;
+    gap: 20px;
+  }
+  .email-stat .num {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .email-stat .num em { font-style: italic; }
+  .email-stat .lbl {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* ===== How it works (dark) ===== */
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 64px;
+    border-top: 1px solid var(--dark-rule);
+  }
+  .how-step {
+    padding: 36px 28px 6px 0;
+    border-right: 1px solid var(--dark-rule);
+    position: relative;
+  }
+  .how-step:last-child { border-right: none; padding-right: 0; }
+  .how-step + .how-step { padding-left: 28px; }
+  .how-num {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 76px;
+    line-height: 1;
+    color: #2c2925;
+    letter-spacing: -0.04em;
+    margin-bottom: 28px;
+    display: block;
+  }
+  .how-step h3 { color: #f6f1e6; margin-bottom: 14px; font-size: 21px; }
+  .how-step p { color: var(--dark-muted); font-size: 15px; line-height: 1.65; margin: 0; }
+  @media (max-width: 900px) {
+    .how-grid { grid-template-columns: 1fr 1fr; }
+    .how-step:nth-child(2n) { border-right: none; }
+    .how-step { border-bottom: 1px solid var(--dark-rule); padding: 32px 24px 32px 0; }
+    .how-step:nth-child(odd) { padding-right: 24px; }
+    .how-step:nth-child(even) { padding-left: 24px; padding-right: 0; }
+    .how-step:nth-last-child(-n+2) { border-bottom: none; }
+  }
+  @media (max-width: 600px) {
+    .how-grid { grid-template-columns: 1fr; }
+    .how-step { border-right: none !important; padding: 28px 0 !important; border-bottom: 1px solid var(--dark-rule); }
+    .how-step:last-child { border-bottom: none; }
+  }
+
+  /* ===== Client results ===== */
+  .video-frame {
+    position: relative;
+    background: #0e0c0a;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    cursor: pointer;
+    transition: transform .25s ease;
+  }
+  .video-frame:hover { transform: translateY(-3px); }
+  .video-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(255,255,255,0.04), transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(255,255,255,0.03), transparent 60%);
+  }
+  .play-btn {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 78px; height: 78px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.04);
+    transition: all .25s ease;
+  }
+  .video-frame:hover .play-btn { background: rgba(255,255,255,0.15); transform: translate(-50%, -50%) scale(1.06); }
+  .play-btn svg { width: 22px; height: 22px; fill: #fff; margin-left: 4px; }
+  .video-caption {
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 14px;
+    font-style: italic;
+  }
+
+  .results-quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1.35;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    margin: 0 0 36px;
+    font-weight: 500;
+  }
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    border-top: 1px solid var(--rule);
+    padding-top: 28px;
+  }
+  .stat .v {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+  .stat .v em { font-style: italic; }
+  .stat .l {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ===== Testimonials ===== */
+  .test-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 56px;
+  }
+  @media (max-width: 760px) { .test-grid { grid-template-columns: 1fr; } }
+
+  .test-card {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 28px 30px 26px;
+    transition: transform .3s ease, box-shadow .3s ease;
+  }
+  .test-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }
+  .stars { color: var(--gold); letter-spacing: 2px; font-size: 14px; margin-bottom: 14px; }
+  .test-card .q {
+    color: var(--ink-soft);
+    font-size: 15.5px;
+    line-height: 1.65;
+    margin: 0 0 22px;
+  }
+  .test-card .q b { color: var(--ink); font-weight: 600; }
+  .test-foot {
+    border-top: 1px solid var(--rule-soft);
+    padding-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .test-author { display: flex; align-items: center; gap: 12px; }
+  .test-author .avatar { width: 36px; height: 36px; font-size: 12px; }
+  .test-author .name { font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.2; }
+  .test-author .role { font-size: 12px; color: var(--muted); }
+  .handle { font-size: 12.5px; color: var(--muted); font-family: var(--sans); }
+
+  /* ===== Who it's for ===== */
+  .who-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 56px;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .who-card {
+    padding: 32px 26px 36px;
+    border-right: 1px solid var(--rule);
+    background: #fff;
+    transition: background .25s ease;
+  }
+  .who-card:last-child { border-right: none; }
+  .who-card:hover { background: #fbf8f1; }
+  .who-card .lbl {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .who-card h3 {
+    font-size: 22px;
+    margin: 0 0 14px;
+    letter-spacing: -0.018em;
+  }
+  .who-card p {
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.65;
+    margin: 0;
+  }
+  @media (max-width: 900px) {
+    .who-grid { grid-template-columns: 1fr 1fr; }
+    .who-card:nth-child(2) { border-right: none; }
+    .who-card:nth-child(-n+2) { border-bottom: 1px solid var(--rule); }
+  }
+  @media (max-width: 560px) {
+    .who-grid { grid-template-columns: 1fr; }
+    .who-card { border-right: none; border-bottom: 1px solid var(--rule); }
+    .who-card:last-child { border-bottom: none; }
+  }
+
+  /* ===== Final CTA ===== */
+  .final {
+    text-align: center;
+    padding: 130px 0;
+  }
+  .final h2 {
+    max-width: 780px;
+    margin: 0 auto 24px;
+    font-style: italic;
+    font-weight: 600;
+  }
+  .final p {
+    color: var(--dark-muted);
+    max-width: 540px;
+    margin: 0 auto 36px;
+    font-size: 17px;
+  }
+
+  /* ===== Footer ===== */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 28px 0;
+    background: var(--bg);
+  }
+  .foot-inner {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .foot-inner a:hover { color: var(--ink); }
+  @media (max-width: 600px) {
+    .foot-inner { flex-direction: column; gap: 10px; text-align: center; }
+  }
+
+  /* ===== Reveal animations ===== */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+  /* small detail: scroll indicator under hero */
+  .scroll-cue {
+    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+  }
+  .scroll-cue .line { display: inline-block; width: 1px; height: 28px; background: var(--rule); position: relative; overflow: hidden; }
+  .scroll-cue .line::after {
+    content: ""; position: absolute; left: 0; top: -28px; width: 1px; height: 28px;
+    background: var(--ink);
+    animation: drop 2.4s cubic-bezier(.4,0,.2,1) infinite;
+  }
+  @keyframes drop { 0%{top:-28px} 60%,100%{top:28px} }
+
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="wordmark">Newsletter Engine<span class="dot"></span></a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#who">Who it's for</a>
+      <a href="#results">Results</a>
+    </div>
+    <a href="#cta" class="btn btn-primary">Book a call</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <span class="hero-ornament left">&#8220;</span>
+  <span class="hero-ornament right">&#8221;</span>
+  <div class="reading">
+    <span class="eyebrow reveal">Done-for-you newsletter service</span>
+    <h1 class="reveal">We run your newsletter.<br/>You keep <em>all the credit</em>.</h1>
+    <p class="lead reveal">Send us a 5-minute Loom. We write, design, and send a weekly newsletter your audience actually reads — in your voice, every single week.</p>
+    <div class="hero-ctas reveal">
+      <a href="#cta" class="btn btn-primary">Let's build your newsletter <span class="arrow">→</span></a>
+      <a href="#results" class="btn btn-ghost">See examples</a>
+    </div>
+    <div class="trust-line reveal">
+      <span class="item"><span class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.5L5 9l4.5-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>No writing required</span>
+      <span class="item"><span class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.5L5 9l4.5-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>First issue in 7 days</span>
+      <span class="item"><span class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.5L5 9l4.5-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Cancel anytime</span>
+    </div>
+    <div style="margin-top:48px;">
+      <span class="scroll-cue"><span>scroll</span><span class="line"></span></span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ SOCIAL PROOF ============ -->
+<section class="social-strip">
+  <div class="wrap social-inner">
+    <span class="social-label">Trusted by</span>
+    <div class="social-people">
+      <div class="person"><span class="avatar dusty">MK</span><div class="meta"><div class="name">Marcus K.</div><div class="role">Business Coach</div></div></div>
+      <div class="person"><span class="avatar purple">SR</span><div class="meta"><div class="name">Sophia R.</div><div class="role">Wellness Expert</div></div></div>
+      <div class="person"><span class="avatar forest">DL</span><div class="meta"><div class="name">Daniel L.</div><div class="role">Podcast Host</div></div></div>
+      <div class="person"><span class="avatar terra">AT</span><div class="meta"><div class="name">Aisha T.</div><div class="role">Finance Advisor</div></div></div>
+      <div class="person"><span class="avatar olive">JP</span><div class="meta"><div class="name">James P.</div><div class="role">Real Estate Investor</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY IT MATTERS ============ -->
+<section class="section section--white">
+  <div class="wrap">
+    <div class="grid-2">
+      <div class="reveal">
+        <span class="eyebrow">Why this matters</span>
+        <h2>Your newsletter is the<br/><em>hub of your sales funnel</em>.</h2>
+        <div class="body-copy" style="margin-top:24px;">
+          <p>Your audience is scattered across LinkedIn, Instagram, podcasts, and YouTube. One algorithm update and your reach disappears overnight. You have no recourse and no list.</p>
+          <p class="pull-quote">A newsletter is how they get to know you. If it's this important to your sales funnel, it better be good.</p>
+          <p>The coaches, consultants, and creators making real money in 2026 all have one thing in common: a weekly email their audience actually looks forward to. That's where we come in.</p>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="email-card">
+          <div class="email-head">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <span class="from">Tuesday · Issue 47</span>
+          </div>
+          <div class="email-body">
+            <div class="email-meta">From your audience's inbox</div>
+            <h3 class="email-subject">The one mindset shift that <em>3x'd my close rate</em></h3>
+            <p>Most consultants walk into a sales call trying to convince. I used to do the same — and I was losing deals I should have won.</p>
+            <p>The shift happened when I stopped presenting and started diagnosing. Here's exactly what changed…</p>
+            <a href="#" class="email-link">Continue reading →</a>
+            <div class="email-stats">
+              <div class="email-stat">
+                <span class="num">54.2%</span>
+                <span class="lbl">Open rate</span>
+              </div>
+              <div class="email-stat">
+                <span class="num">9.8%</span>
+                <span class="lbl">Click rate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="section section--dark" id="how">
+  <div class="wrap">
+    <div class="reveal" style="max-width:760px;">
+      <span class="eyebrow">How it works</span>
+      <h2>We handle the <em>entire newsletter</em> so you don't have to.</h2>
+      <p class="muted" style="font-size:18px; max-width:560px; margin:8px 0 0;">Your only job is a 5-minute Loom. Everything else — writing, designing, sending, growing — is ours.</p>
+    </div>
+
+    <div class="how-grid reveal">
+      <div class="how-step">
+        <span class="how-num">01</span>
+        <h3>We capture your expertise</h3>
+        <p>Record a 5-minute Loom, a thought, a story, a frame. We extract everything that makes you sharp and turn it into a weekly newsletter that reads like you wrote it.</p>
+      </div>
+      <div class="how-step">
+        <span class="how-num">02</span>
+        <h3>We build the infrastructure</h3>
+        <p>Beehiiv setup, custom design, inbox-first formatting, deliverability monitoring. The technical side is handled completely. You never touch the back end.</p>
+      </div>
+      <div class="how-step">
+        <span class="how-num">03</span>
+        <h3>We grow your list</h3>
+        <p>Collaborative referral campaigns, audience-acquisition strategy, recommendation networks. We use the same playbook that took our clients to six figures in two years.</p>
+      </div>
+      <div class="how-step">
+        <span class="how-num">04</span>
+        <h3>You earn from your audience</h3>
+        <p>Warm, engaged readers, primed to buy. Your newsletter becomes the monetization layer. Pitch products, courses, consulting, or affiliate offers without burning the list.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLIENT RESULTS ============ -->
+<section class="section section--warm" id="results">
+  <div class="wrap">
+    <div class="reveal" style="max-width:780px; margin-bottom:64px;">
+      <span class="eyebrow">Client results</span>
+      <h2>From inconsistent sends to<br/><em>10x newsletter revenue</em>.</h2>
+    </div>
+
+    <div class="grid-2" style="align-items:center;">
+      <div class="reveal">
+        <div class="video-frame" role="button" aria-label="Play case study">
+          <div class="play-btn">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="video-caption">Watch: how Marcus 10x'd his newsletter revenue in 90 days</div>
+      </div>
+
+      <div class="reveal">
+        <p class="results-quote">"I finally feel like I'm talking to my audience, not just posting into the void."</p>
+        <div class="stat-row">
+          <div class="stat">
+            <div class="v">1<em>×</em>→5<em>×</em></div>
+            <div class="l">Sends per week</div>
+          </div>
+          <div class="stat">
+            <div class="v">10<em>×</em></div>
+            <div class="l">Newsletter revenue</div>
+          </div>
+          <div class="stat">
+            <div class="v"><em>Hands off</em></div>
+            <div class="l">Time spent writing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="section section--white">
+  <div class="reading center">
+    <span class="eyebrow reveal">Done-for-you newsletter service</span>
+    <h2 class="reveal">Real people. <em>Real results.</em></h2>
+  </div>
+
+  <div class="wrap">
+    <div class="test-grid">
+
+      <div class="test-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="q">"I had 1,200 subscribers sitting dormant. Within 90 days two of them became <b>high-ticket coaching clients.</b> The ROI was immediate and I didn't write a single word."</p>
+        <div class="test-foot">
+          <div class="test-author">
+            <span class="avatar dusty">MK</span>
+            <div><div class="name">Marcus K.</div><div class="role">Business Coach, Toronto</div></div>
+          </div>
+          <span class="handle">@marcus_k</span>
+        </div>
+      </div>
+
+      <div class="test-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="q">"My open rates went from <b>18% to 51% in 6 weeks.</b> My audience is actually replying to emails, now. That never happened before Newsletter Engine."</p>
+        <div class="test-foot">
+          <div class="test-author">
+            <span class="avatar purple">SR</span>
+            <div><div class="name">Sophia R.</div><div class="role">Nutrition &amp; Wellness Coach</div></div>
+          </div>
+          <span class="handle">@sophiar</span>
+        </div>
+      </div>
+
+      <div class="test-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="q">"As a podcast host I was already creating content. Newsletter Engine turned that into a <b>second revenue channel that now outperforms my social media combined.</b>"</p>
+        <div class="test-foot">
+          <div class="test-author">
+            <span class="avatar forest">DL</span>
+            <div><div class="name">Daniel L.</div><div class="role">Podcast Host &amp; Founder</div></div>
+          </div>
+          <span class="handle">@danny_pods</span>
+        </div>
+      </div>
+
+      <div class="test-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="q">"I'd been meaning to start a newsletter for two years. Newsletter Engine did the whole thing in a week and <b>I immediately sounded like me.</b> Genuinely shocked."</p>
+        <div class="test-foot">
+          <div class="test-author">
+            <span class="avatar terra">AT</span>
+            <div><div class="name">Aisha T.</div><div class="role">Financial Advisor, NYC</div></div>
+          </div>
+          <span class="handle">@aisha_fin</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHO IT'S FOR ============ -->
+<section class="section section--warm" id="who">
+  <div class="reading center">
+    <span class="eyebrow reveal">Who it's for</span>
+    <h2 class="reveal">Built for people with <em>expertise</em>,<br/>not people with time to write.</h2>
+  </div>
+
+  <div class="wrap">
+    <div class="who-grid reveal">
+      <div class="who-card">
+        <span class="lbl">If you are a</span>
+        <h3>Coach or consultant</h3>
+        <p>Your best thinking gets into 1-on-1 sessions. A newsletter scales those ideas to hundreds of warm leads every week, turning attention into inbound deals.</p>
+      </div>
+      <div class="who-card">
+        <span class="lbl">If you are a</span>
+        <h3>Podcast host</h3>
+        <p>You already create content weekly. A newsletter turns every episode into an owned-audience touchpoint that compounds over time and converts on autopilot.</p>
+      </div>
+      <div class="who-card">
+        <span class="lbl">If you are a</span>
+        <h3>Course creator</h3>
+        <p>Your email list is your most valuable revenue lever. A weekly newsletter keeps it warm, builds trust, and converts launches into buyers before you even share an offer.</p>
+      </div>
+      <div class="who-card">
+        <span class="lbl">If you are a</span>
+        <h3>Service expert</h3>
+        <p>Retainers, fractional work, advisory roles, agency — any expert with a niche audience that needs consistent trust-building communication to close every client.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="section section--dark final" id="cta">
+  <div class="reading">
+    <h2 class="reveal">Your audience is waiting.<br/>Stop making them wait.</h2>
+    <p class="reveal">Every week you don't send, a competitor does. Book a free 20-minute call and we'll map out your newsletter strategy — whether you work with us or not.</p>
+    <a href="mailto:hello@newsletterengine.com" class="btn btn-light reveal">Book your free strategy call <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="foot-inner">
+    <span class="wordmark" style="font-size:18px;">Newsletter Engine<span class="dot"></span></span>
+    <span>© 2026 Newsletter Engine. All rights reserved.</span>
+    <a href="mailto:hello@newsletterengine.com">hello@newsletterengine.com</a>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Stagger the hero reveals
+  document.querySelectorAll('.hero .reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.09) + 's';
+  });
+</script>
+</body>
+</html>

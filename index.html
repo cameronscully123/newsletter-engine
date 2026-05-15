@@ -635,7 +635,7 @@
   /* ===== Final CTA ===== */
   .final {
     text-align: center;
-    padding: 130px 0;
+    padding: 100px 0 80px;
   }
   .final h2 {
     max-width: 780px;
@@ -646,8 +646,20 @@
   .final p {
     color: var(--dark-muted);
     max-width: 540px;
-    margin: 0 auto 36px;
+    margin: 0 auto 48px;
     font-size: 17px;
+  }
+  .cal-wrap {
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 32px 80px -24px rgba(0,0,0,0.5);
+    min-height: 600px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .cal-wrap > div {
+    min-height: 600px;
   }
 
   /* ===== Footer ===== */
@@ -1090,8 +1102,22 @@
 <section class="section section--dark final" id="cta">
   <div class="reading">
     <h2 class="reveal">Your audience is waiting.<br/>Stop making them wait.</h2>
-    <p class="reveal">Every week you don't send, a competitor does. Book a free 20-minute call and we'll map out your newsletter strategy — whether you work with us or not.</p>
-    <a href="mailto:hello@newsletterengine.com" class="btn btn-light reveal">Book your free strategy call <span class="arrow">→</span></a>
+    <p class="reveal">Every week you don't send, a competitor does. Book a free 20-minute strategy call — whether you work with us or not.</p>
+    <div class="cal-wrap reveal">
+      <!-- Cal inline embed code begins -->
+      <div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-30min"></div>
+      <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "30min", {origin:"https://app.cal.com"});
+        Cal.ns["30min"]("inline", {
+          elementOrSelector:"#my-cal-inline-30min",
+          config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"},
+          calLink: "newsletter-engine-discovery/30min",
+        });
+        Cal.ns["30min"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+      </script>
+      <!-- Cal inline embed code ends -->
+    </div>
   </div>
 </section>
 

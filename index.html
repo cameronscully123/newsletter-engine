@@ -1036,7 +1036,6 @@
     <p class="lead reveal">Send us a 5-minute Loom. We write, design, and send a weekly newsletter your audience actually reads, in your voice, every single week.</p>
     <div class="hero-ctas reveal">
       <a href="#cta" class="btn btn-primary">Book a free strategy call <span class="arrow">→</span></a>
-      <a href="#results" class="btn btn-ghost">See examples</a>
     </div>
     <div class="trust-line reveal">
       <span class="item"><span class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.5L5 9l4.5-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>No writing required</span>
@@ -1180,10 +1179,10 @@
       <div class="proof-mini"><div class="num">400k+</div><div class="lbl">Subscribers across lists</div></div>
       <div class="proof-mini"><div class="num">6 figs</div><div class="lbl">Revenue unlocked</div></div>
       <div class="proof-mini"><div class="num">60%+</div><div class="lbl">Open rates achieved</div></div>
-    <div class="reveal" style="text-align:center;margin-top:48px;">
+    </div>
+    <div class="reveal" style="display:flex;flex-direction:column;align-items:center;margin-top:48px;">
       <a href="#cta" class="btn btn-primary">Book a free strategy call →</a>
       <p style="margin-top:14px;font-size:13px;color:var(--muted);text-align:center;">No pitch. 20 minutes. We'll tell you exactly what your newsletter needs.</p>
-    </div>
     </div>
   </div>
 </section>
@@ -1415,20 +1414,12 @@
   <div class="reading">
     <h2 class="reveal">Your audience is waiting.<br/>Stop making them wait.</h2>
     <p class="reveal">Every week you don't send, a competitor does. Book a free 20-minute strategy call, whether you work with us or not.</p>
-    <div class="cal-wrap reveal">
-      <!-- Cal inline embed code begins -->
-      <div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-30min"></div>
-      <script type="text/javascript">
-        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-        Cal("init", "30min", {origin:"https://app.cal.com"});
-        Cal.ns["30min"]("inline", {
-          elementOrSelector:"#my-cal-inline-30min",
-          config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"},
-          calLink: "newsletter-engine-discovery/30min",
-        });
-        Cal.ns["30min"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
-      </script>
-      <!-- Cal inline embed code ends -->
+    <div class="reveal" style="margin-top:40px;">
+      <!-- Cal popup button -->
+      <a href="https://cal.com/newsletter-engine-discovery/30min" target="_blank" rel="noopener" class="btn btn-light" style="font-size:17px;padding:18px 36px;">
+        Book a free strategy call <span class="arrow">→</span>
+      </a>
+      <p style="margin-top:16px;font-size:13px;color:rgba(255,255,255,0.45);text-align:center;">No pitch. 20 minutes. Free.</p>
     </div>
   </div>
 </section>

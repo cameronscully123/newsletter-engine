@@ -668,6 +668,155 @@
     min-height: 600px;
   }
 
+  /* ===== Hero stats line ===== */
+  .hero-stat-line {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.01em;
+  }
+  .hero-stat-line span { margin: 0 6px; opacity: 0.35; }
+
+  /* ===== Funnel diagram ===== */
+  .funnel-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0 0;
+    gap: 0;
+    user-select: none;
+  }
+  .funnel-platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .fp {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 15px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    font-size: 13px;
+    font-family: var(--sans);
+    color: var(--ink);
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,.04);
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity .0s, transform .0s;
+  }
+  .fp::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--dot, #888);
+    flex-shrink: 0;
+  }
+  .funnel-vline {
+    width: 1px;
+    background: var(--rule);
+    height: 32px;
+    margin: 4px 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform .0s;
+  }
+  .funnel-arrow {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1;
+    margin: -2px 0 4px;
+    opacity: 0;
+    transition: opacity .0s;
+  }
+  .funnel-mid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+  }
+  .funnel-side { display: flex; flex-direction: column; gap: 12px; }
+  .funnel-side--left { align-items: flex-end; }
+  .funnel-side--right { align-items: flex-start; }
+  .fl {
+    display: inline-block;
+    padding: 6px 13px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-family: var(--sans);
+    color: var(--muted);
+    background: #fff;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity .0s, transform .0s;
+  }
+  .funnel-side--left .fl { transform: translateX(-10px); }
+  .funnel-side--right .fl { transform: translateX(10px); }
+  .funnel-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 22px 28px;
+    border: 1.5px solid var(--ink);
+    border-radius: 16px;
+    background: #fff;
+    font-family: var(--serif);
+    font-size: 17px;
+    color: var(--ink);
+    box-shadow: 0 6px 28px rgba(20,17,13,.07);
+    white-space: nowrap;
+    opacity: 0;
+    transform: scale(0.88);
+    transition: opacity .0s, transform .0s;
+  }
+  .funnel-result {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 4px;
+  }
+  .funnel-result span {
+    padding: 7px 16px;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 999px;
+    font-size: 11px;
+    font-family: var(--sans);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .0s, transform .0s;
+  }
+  /* Triggered animations */
+  .funnel-diagram.fd-active .fp         { opacity: 1; transform: translateY(0); transition-duration: .4s; transition-timing-function: ease; }
+  .funnel-diagram.fd-active .fp:nth-child(1) { transition-delay: .0s; }
+  .funnel-diagram.fd-active .fp:nth-child(2) { transition-delay: .07s; }
+  .funnel-diagram.fd-active .fp:nth-child(3) { transition-delay: .14s; }
+  .funnel-diagram.fd-active .fp:nth-child(4) { transition-delay: .21s; }
+  .funnel-diagram.fd-active .fp:nth-child(5) { transition-delay: .28s; }
+  .funnel-diagram.fd-active .funnel-vline  { transform: scaleY(1); transition-duration: .4s; transition-timing-function: ease; }
+  .funnel-diagram.fd-active .funnel-vline:nth-of-type(1) { transition-delay: .35s; }
+  .funnel-diagram.fd-active .funnel-vline:nth-of-type(2) { transition-delay: .85s; }
+  .funnel-diagram.fd-active .funnel-arrow  { opacity: 1; transition-duration: .3s; }
+  .funnel-diagram.fd-active .funnel-arrow:first-of-type  { transition-delay: .52s; }
+  .funnel-diagram.fd-active .funnel-arrow:last-of-type   { transition-delay: .95s; }
+  .funnel-diagram.fd-active .funnel-box   { opacity: 1; transform: scale(1); transition-duration: .45s; transition-timing-function: cubic-bezier(.34,1.3,.64,1); transition-delay: .55s; }
+  .funnel-diagram.fd-active .fl          { opacity: 1; transform: translateX(0); transition-duration: .35s; transition-timing-function: ease; }
+  .funnel-diagram.fd-active .fl:nth-child(1) { transition-delay: .72s; }
+  .funnel-diagram.fd-active .fl:nth-child(2) { transition-delay: .82s; }
+  .funnel-diagram.fd-active .funnel-result span { opacity: 1; transform: translateY(0); transition-duration: .35s; transition-timing-function: ease; }
+  .funnel-diagram.fd-active .funnel-result span:nth-child(1) { transition-delay: 1.05s; }
+  .funnel-diagram.fd-active .funnel-result span:nth-child(2) { transition-delay: 1.13s; }
+  .funnel-diagram.fd-active .funnel-result span:nth-child(3) { transition-delay: 1.21s; }
+
   /* ===== Footer ===== */
   footer {
     border-top: 1px solid var(--rule);
@@ -1037,6 +1186,7 @@
     <div class="hero-ctas reveal">
       <a href="#cta" class="btn btn-primary">Book a free strategy call <span class="arrow">→</span></a>
     </div>
+    <p class="hero-stat-line reveal">20+ newsletters running <span>·</span> 400k+ subscribers <span>·</span> 60%+ open rates</p>
     <div class="trust-line reveal">
       <span class="item"><span class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.5L5 9l4.5-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>No writing required</span>
       <span class="item"><span class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.5L5 9l4.5-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>First issue in 7 days</span>
@@ -1087,27 +1237,36 @@
       </div>
 
       <div class="reveal">
-        <div class="email-card">
-          <div class="email-head">
-            <div class="dots"><span></span><span></span><span></span></div>
-            <span class="from">Tuesday · Issue 47</span>
+        <div class="funnel-diagram" id="funnelDiagram">
+          <div class="funnel-platforms">
+            <span class="fp" style="--dot:#0A66C2">LinkedIn</span>
+            <span class="fp" style="--dot:#FF0000">YouTube</span>
+            <span class="fp" style="--dot:#888">X / Twitter</span>
+            <span class="fp" style="--dot:#8B5CF6">Podcasts</span>
+            <span class="fp" style="--dot:#E1306C">Instagram</span>
           </div>
-          <div class="email-body">
-            <div class="email-meta">From your audience's inbox</div>
-            <h3 class="email-subject">The one mindset shift that <em>3x'd my close rate</em></h3>
-            <p>Most consultants walk into a sales call trying to convince. I used to do the same, and I was losing deals I should have won.</p>
-            <p>The shift happened when I stopped presenting and started diagnosing. Here's exactly what changed…</p>
-            <a href="#" class="email-link">Continue reading →</a>
-            <div class="email-stats">
-              <div class="email-stat">
-                <span class="num">54.2%</span>
-                <span class="lbl">Open rate</span>
-              </div>
-              <div class="email-stat">
-                <span class="num">9.8%</span>
-                <span class="lbl">Click rate</span>
-              </div>
+          <div class="funnel-vline"></div>
+          <div class="funnel-arrow">↓</div>
+          <div class="funnel-mid">
+            <div class="funnel-side funnel-side--left">
+              <span class="fl">Build trust</span>
+              <span class="fl">Nurture &amp; educate</span>
             </div>
+            <div class="funnel-box">
+              <svg width="26" height="20" viewBox="0 0 26 20" fill="none"><rect x="1" y="1" width="24" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M1 5l12 8 12-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Your Newsletter
+            </div>
+            <div class="funnel-side funnel-side--right">
+              <span class="fl">Provide value</span>
+              <span class="fl">Demonstrate expertise</span>
+            </div>
+          </div>
+          <div class="funnel-vline"></div>
+          <div class="funnel-arrow">↓</div>
+          <div class="funnel-result">
+            <span>Sales</span>
+            <span>Revenue</span>
+            <span>Repeat buyers</span>
           </div>
         </div>
       </div>
@@ -1419,7 +1578,7 @@
       <a href="https://cal.com/newsletter-engine-discovery/30min" target="_blank" rel="noopener" class="btn btn-light" style="font-size:17px;padding:18px 36px;">
         Book a free strategy call <span class="arrow">→</span>
       </a>
-      <p style="margin-top:16px;font-size:13px;color:rgba(255,255,255,0.45);text-align:center;">No pitch. 20 minutes. Free.</p>
+      <p style="margin-top:16px;font-size:13px;color:rgba(255,255,255,0.45);text-align:center;">20+ newsletters running <span style="margin:0 5px;opacity:.4">·</span> 400k+ subscribers <span style="margin:0 5px;opacity:.4">·</span> 60%+ open rates</p>
     </div>
   </div>
 </section>
@@ -1441,6 +1600,20 @@
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ---- Funnel diagram animation ---- */
+  const funnelEl = document.getElementById('funnelDiagram');
+  if (funnelEl) {
+    const funnelObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('fd-active');
+          funnelObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    funnelObs.observe(funnelEl);
+  }
 
   /* ---- Stagger hero reveals ---- */
   document.querySelectorAll('.hero .reveal').forEach((el, i) => {

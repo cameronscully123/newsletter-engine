@@ -681,145 +681,22 @@
   }
   .hero-stat-line span { margin: 0 6px; opacity: 0.35; }
 
-  /* ===== Funnel diagram ===== */
-  .funnel-diagram {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 8px 0 0;
-    gap: 0;
-    user-select: none;
-  }
-  .funnel-platforms {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-  }
-  .fp {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 15px;
-    border: 1px solid var(--rule);
-    border-radius: 999px;
-    font-size: 13px;
-    font-family: var(--sans);
-    color: var(--ink);
-    background: #fff;
-    box-shadow: 0 1px 4px rgba(0,0,0,.04);
-    opacity: 0;
-    transform: translateY(-8px);
-    transition: opacity .0s, transform .0s;
-  }
-  .fp::before {
-    content: '';
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--dot, #888);
-    flex-shrink: 0;
-  }
-  .funnel-vline {
-    width: 1px;
-    background: var(--rule);
-    height: 32px;
-    margin: 4px 0;
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: transform .0s;
-  }
-  .funnel-arrow {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1;
-    margin: -2px 0 4px;
-    opacity: 0;
-    transition: opacity .0s;
-  }
-  .funnel-mid {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 14px;
+  /* ===== Signal hub (canvas) ===== */
+  .signal-hub-wrap {
+    position: relative;
     width: 100%;
-  }
-  .funnel-side { display: flex; flex-direction: column; gap: 12px; }
-  .funnel-side--left { align-items: flex-end; }
-  .funnel-side--right { align-items: flex-start; }
-  .fl {
-    display: inline-block;
-    padding: 6px 13px;
+    height: 380px;
+    border-radius: 20px;
+    background: #f7f5f1;
     border: 1px solid var(--rule);
-    border-radius: 999px;
-    font-size: 11.5px;
-    font-family: var(--sans);
-    color: var(--muted);
-    background: #fff;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity .0s, transform .0s;
+    overflow: hidden;
   }
-  .funnel-side--left .fl { transform: translateX(-10px); }
-  .funnel-side--right .fl { transform: translateX(10px); }
-  .funnel-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 22px 28px;
-    border: 1.5px solid var(--ink);
-    border-radius: 16px;
-    background: #fff;
-    font-family: var(--serif);
-    font-size: 17px;
-    color: var(--ink);
-    box-shadow: 0 6px 28px rgba(20,17,13,.07);
-    white-space: nowrap;
-    opacity: 0;
-    transform: scale(0.88);
-    transition: opacity .0s, transform .0s;
+  #signalCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
-  .funnel-result {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 4px;
-  }
-  .funnel-result span {
-    padding: 7px 16px;
-    background: var(--ink);
-    color: #fff;
-    border-radius: 999px;
-    font-size: 11px;
-    font-family: var(--sans);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity .0s, transform .0s;
-  }
-  /* Triggered animations */
-  .funnel-diagram.fd-active .fp         { opacity: 1; transform: translateY(0); transition-duration: .4s; transition-timing-function: ease; }
-  .funnel-diagram.fd-active .fp:nth-child(1) { transition-delay: .0s; }
-  .funnel-diagram.fd-active .fp:nth-child(2) { transition-delay: .07s; }
-  .funnel-diagram.fd-active .fp:nth-child(3) { transition-delay: .14s; }
-  .funnel-diagram.fd-active .fp:nth-child(4) { transition-delay: .21s; }
-  .funnel-diagram.fd-active .fp:nth-child(5) { transition-delay: .28s; }
-  .funnel-diagram.fd-active .funnel-vline  { transform: scaleY(1); transition-duration: .4s; transition-timing-function: ease; }
-  .funnel-diagram.fd-active .funnel-vline:nth-of-type(1) { transition-delay: .35s; }
-  .funnel-diagram.fd-active .funnel-vline:nth-of-type(2) { transition-delay: .85s; }
-  .funnel-diagram.fd-active .funnel-arrow  { opacity: 1; transition-duration: .3s; }
-  .funnel-diagram.fd-active .funnel-arrow:first-of-type  { transition-delay: .52s; }
-  .funnel-diagram.fd-active .funnel-arrow:last-of-type   { transition-delay: .95s; }
-  .funnel-diagram.fd-active .funnel-box   { opacity: 1; transform: scale(1); transition-duration: .45s; transition-timing-function: cubic-bezier(.34,1.3,.64,1); transition-delay: .55s; }
-  .funnel-diagram.fd-active .fl          { opacity: 1; transform: translateX(0); transition-duration: .35s; transition-timing-function: ease; }
-  .funnel-diagram.fd-active .fl:nth-child(1) { transition-delay: .72s; }
-  .funnel-diagram.fd-active .fl:nth-child(2) { transition-delay: .82s; }
-  .funnel-diagram.fd-active .funnel-result span { opacity: 1; transform: translateY(0); transition-duration: .35s; transition-timing-function: ease; }
-  .funnel-diagram.fd-active .funnel-result span:nth-child(1) { transition-delay: 1.05s; }
-  .funnel-diagram.fd-active .funnel-result span:nth-child(2) { transition-delay: 1.13s; }
-  .funnel-diagram.fd-active .funnel-result span:nth-child(3) { transition-delay: 1.21s; }
 
   /* ===== Footer ===== */
   footer {
@@ -1241,37 +1118,8 @@
       </div>
 
       <div class="reveal">
-        <div class="funnel-diagram" id="funnelDiagram">
-          <div class="funnel-platforms">
-            <span class="fp" style="--dot:#0A66C2">LinkedIn</span>
-            <span class="fp" style="--dot:#FF0000">YouTube</span>
-            <span class="fp" style="--dot:#888">X / Twitter</span>
-            <span class="fp" style="--dot:#8B5CF6">Podcasts</span>
-            <span class="fp" style="--dot:#E1306C">Instagram</span>
-          </div>
-          <div class="funnel-vline"></div>
-          <div class="funnel-arrow">↓</div>
-          <div class="funnel-mid">
-            <div class="funnel-side funnel-side--left">
-              <span class="fl">Build trust</span>
-              <span class="fl">Nurture &amp; educate</span>
-            </div>
-            <div class="funnel-box">
-              <svg width="26" height="20" viewBox="0 0 26 20" fill="none"><rect x="1" y="1" width="24" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M1 5l12 8 12-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              Your Newsletter
-            </div>
-            <div class="funnel-side funnel-side--right">
-              <span class="fl">Provide value</span>
-              <span class="fl">Demonstrate expertise</span>
-            </div>
-          </div>
-          <div class="funnel-vline"></div>
-          <div class="funnel-arrow">↓</div>
-          <div class="funnel-result">
-            <span>Sales</span>
-            <span>Revenue</span>
-            <span>Repeat buyers</span>
-          </div>
+        <div class="signal-hub-wrap" id="signalHub">
+          <canvas id="signalCanvas"></canvas>
         </div>
       </div>
     </div>
@@ -1653,19 +1501,263 @@
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  /* ---- Funnel diagram animation ---- */
-  const funnelEl = document.getElementById('funnelDiagram');
-  if (funnelEl) {
-    const funnelObs = new IntersectionObserver((entries) => {
+  /* ---- Signal hub canvas animation ---- */
+  (function() {
+    const wrap = document.getElementById('signalHub');
+    const canvas = document.getElementById('signalCanvas');
+    if (!canvas || !wrap) return;
+    const ctx = canvas.getContext('2d');
+    let W, H, dpr, raf, running = false, t = 0, lastSpawn = -1;
+    const particles = [];
+
+    const ACCENT = '#3d7a5f';
+    const ACCENT_SOFT = 'rgba(61,122,95,';
+    const INK = '#14110d';
+    const MUTED = '#9a9288';
+    const RULE = '#e8e3da';
+
+    const SOURCES = [
+      { label: 'LinkedIn',   color: '#0A66C2' },
+      { label: 'YouTube',    color: '#FF0000' },
+      { label: 'X / Twitter',color: '#555'    },
+      { label: 'Podcasts',   color: '#8B5CF6' },
+      { label: 'Instagram',  color: '#E1306C' },
+    ];
+
+    const OUT = ['Builds trust', 'Drives sales', 'Compounds over time'];
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = wrap.offsetWidth;
+      H = wrap.offsetHeight;
+      canvas.width  = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width  = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    /* Layout helpers */
+    const hx = () => W * 0.50;
+    const hy = () => H * 0.50;
+    const sx = () => W * 0.10;
+    const sy = (i) => H * (0.14 + i * 0.18);
+    const ox = () => W * 0.76;
+    const oy = (i) => H * (0.28 + i * 0.22);
+
+    function spawnParticle(i) {
+      const ex = hx(), ey = hy();
+      const startX = sx() + 6, startY = sy(i);
+      const cp1x = startX + (ex - startX) * 0.4;
+      const cp1y = startY + (ey - startY) * 0.1 - 30;
+      const cp2x = startX + (ex - startX) * 0.7;
+      const cp2y = ey - 20;
+      particles.push({
+        sx: startX, sy: startY,
+        cp1x, cp1y, cp2x, cp2y,
+        ex, ey,
+        p: 0,
+        speed: 0.007 + Math.random() * 0.005,
+        r: 2.2 + Math.random() * 1.2,
+        color: SOURCES[i].color,
+      });
+    }
+
+    function cubicAt(t, p0, p1, p2, p3) {
+      const u = 1 - t;
+      return u*u*u*p0 + 3*u*u*t*p1 + 3*u*t*t*p2 + t*t*t*p3;
+    }
+
+    function drawFrame() {
+      ctx.clearRect(0, 0, W, H);
+      const cx = hx(), cy = hy();
+
+      /* --- faint curved paths from sources to hub --- */
+      SOURCES.forEach((_, i) => {
+        const startX = sx() + 6, startY = sy(i);
+        const cp1x = startX + (cx - startX) * 0.4;
+        const cp1y = startY + (cy - startY) * 0.1 - 30;
+        const cp2x = startX + (cx - startX) * 0.7;
+        const cp2y = cy - 20;
+        ctx.save();
+        ctx.globalAlpha = 0.10;
+        ctx.strokeStyle = MUTED;
+        ctx.lineWidth = 1;
+        ctx.setLineDash([2, 6]);
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, cx, cy);
+        ctx.stroke();
+        ctx.restore();
+      });
+
+      /* --- faint lines hub → output --- */
+      OUT.forEach((_, i) => {
+        ctx.save();
+        ctx.globalAlpha = 0.12;
+        ctx.strokeStyle = ACCENT;
+        ctx.lineWidth = 1;
+        ctx.setLineDash([2, 5]);
+        ctx.beginPath();
+        ctx.moveTo(cx + 28, cy);
+        ctx.bezierCurveTo(cx + 60, cy, ox() - 30, oy(i), ox(), oy(i));
+        ctx.stroke();
+        ctx.restore();
+      });
+
+      /* --- source nodes + labels --- */
+      SOURCES.forEach((s, i) => {
+        const x = sx(), y = sy(i);
+        const flicker = 0.55 + 0.25 * Math.sin(t * 2.3 + i * 1.9);
+
+        /* coloured dot */
+        ctx.save();
+        ctx.globalAlpha = flicker * 0.85;
+        ctx.beginPath();
+        ctx.arc(x + 6, y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = s.color;
+        ctx.fill();
+        ctx.restore();
+
+        /* label */
+        ctx.save();
+        ctx.globalAlpha = flicker * 0.65;
+        ctx.font = '13px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
+        ctx.fillStyle = INK;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(s.label, x + 17, y);
+        ctx.restore();
+      });
+
+      /* --- hub glow rings --- */
+      const pulse = 0.5 + 0.5 * Math.sin(t * 1.6);
+      [56, 42, 30].forEach((r, i) => {
+        ctx.save();
+        ctx.globalAlpha = (0.055 - i * 0.014) * (0.7 + 0.3 * pulse);
+        ctx.beginPath();
+        ctx.arc(cx, cy, r + pulse * 6, 0, Math.PI * 2);
+        ctx.fillStyle = ACCENT;
+        ctx.fill();
+        ctx.restore();
+      });
+
+      /* --- hub circle --- */
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, 28, 0, Math.PI * 2);
+      ctx.fillStyle = ACCENT;
+      ctx.fill();
+      ctx.restore();
+
+      /* --- envelope icon --- */
+      const ew = 22, eh = 15, ex2 = cx - ew/2, ey2 = cy - eh/2;
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+      ctx.lineWidth = 1.6;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      ctx.moveTo(ex2 + 3, ey2);
+      ctx.lineTo(ex2 + ew - 3, ey2);
+      ctx.quadraticCurveTo(ex2 + ew, ey2, ex2 + ew, ey2 + 3);
+      ctx.lineTo(ex2 + ew, ey2 + eh - 3);
+      ctx.quadraticCurveTo(ex2 + ew, ey2 + eh, ex2 + ew - 3, ey2 + eh);
+      ctx.lineTo(ex2 + 3, ey2 + eh);
+      ctx.quadraticCurveTo(ex2, ey2 + eh, ex2, ey2 + eh - 3);
+      ctx.lineTo(ex2, ey2 + 3);
+      ctx.quadraticCurveTo(ex2, ey2, ex2 + 3, ey2);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(ex2, ey2 + 2);
+      ctx.lineTo(cx, cy + 4);
+      ctx.lineTo(ex2 + ew, ey2 + 2);
+      ctx.stroke();
+      ctx.restore();
+
+      /* --- hub label --- */
+      ctx.save();
+      ctx.font = '500 10px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
+      ctx.fillStyle = ACCENT;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.letterSpacing = '0.08em';
+      ctx.fillText('YOUR NEWSLETTER', cx, cy + 35);
+      ctx.restore();
+
+      /* --- output nodes + labels --- */
+      OUT.forEach((label, i) => {
+        const x = ox(), y = oy(i);
+        const pop = 0.6 + 0.2 * Math.sin(t * 1.2 + i * 2.1);
+        ctx.save();
+        ctx.globalAlpha = pop;
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = ACCENT;
+        ctx.fill();
+        ctx.restore();
+        ctx.save();
+        ctx.globalAlpha = pop * 0.75;
+        ctx.font = '12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
+        ctx.fillStyle = INK;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(label, x + 10, y);
+        ctx.restore();
+      });
+
+      /* --- particles --- */
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.p += p.speed;
+        if (p.p >= 1) { particles.splice(i, 1); continue; }
+        const tt = p.p;
+        const px = cubicAt(tt, p.sx, p.cp1x, p.cp2x, p.ex);
+        const py = cubicAt(tt, p.sy, p.cp1y, p.cp2y, p.ey);
+        const alpha = Math.sin(tt * Math.PI);
+        /* glow */
+        ctx.save();
+        ctx.globalAlpha = alpha * 0.25;
+        ctx.beginPath();
+        ctx.arc(px, py, p.r + 4, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.restore();
+        /* core */
+        ctx.save();
+        ctx.globalAlpha = alpha * 0.9;
+        ctx.beginPath();
+        ctx.arc(px, py, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.restore();
+      }
+
+      /* --- spawn --- */
+      if (t - lastSpawn > 0.42) {
+        spawnParticle(Math.floor(Math.random() * SOURCES.length));
+        lastSpawn = t;
+      }
+
+      t += 1 / 60;
+      raf = requestAnimationFrame(drawFrame);
+    }
+
+    /* Start when scrolled into view */
+    const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('fd-active');
-          funnelObs.unobserve(e.target);
+        if (e.isIntersecting && !running) {
+          running = true;
+          resize();
+          drawFrame();
+          obs.unobserve(e.target);
         }
       });
-    }, { threshold: 0.2 });
-    funnelObs.observe(funnelEl);
-  }
+    }, { threshold: 0.25 });
+    obs.observe(wrap);
+    window.addEventListener('resize', () => { if (running) resize(); });
+  })();
 
   /* ---- Stagger hero reveals ---- */
   document.querySelectorAll('.hero .reveal').forEach((el, i) => {

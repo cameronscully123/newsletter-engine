@@ -825,6 +825,109 @@
   .how-num { transition: color .4s ease; }
   .how-step:hover .how-num { color: rgba(47,125,81,0.35); }
 
+  /* ===== Hero proof block ===== */
+  .hero-proof {
+    max-width: 820px;
+    margin: 36px auto 0;
+    padding: 24px 28px;
+    background: rgba(255,255,255,0.72);
+    border: 1px solid var(--rule);
+    border-radius: 18px;
+    box-shadow: var(--shadow-card);
+  }
+  .hero-proof .quote {
+    font-family: var(--serif);
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.45;
+    color: var(--ink);
+    margin: 0 0 10px;
+    font-style: italic;
+    letter-spacing: -0.012em;
+  }
+  .hero-proof .author { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+  .hero-proof-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    border-top: 1px solid var(--rule-soft);
+    padding-top: 16px;
+  }
+  .hero-proof-stats span {
+    font-size: 12px;
+    color: var(--ink-soft);
+    background: var(--bg-warm);
+    border: 1px solid var(--rule-soft);
+    border-radius: 999px;
+    padding: 7px 12px;
+  }
+  @media (max-width: 520px) { .hero-proof { padding: 20px 18px; } }
+
+  /* ===== Logo strip ===== */
+  .logo-strip {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 34px 0;
+    background: rgba(255,255,255,0.35);
+  }
+  .logo-strip-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .logo-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 16px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 1px 0 rgba(20,17,13,0.03);
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .logo-chip:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* ===== Proof mini grid ===== */
+  .proof-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 54px;
+  }
+  .proof-mini {
+    background: #fff;
+    padding: 26px 22px;
+    text-align: center;
+    transition: background .2s ease;
+  }
+  .proof-mini:hover { background: #faf7f1; }
+  .proof-mini .num {
+    font-family: var(--serif);
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .proof-mini .lbl {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+  @media (max-width: 760px) { .proof-mini-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 420px) { .proof-mini-grid { grid-template-columns: 1fr; } }
+
 </style>
 </head>
 <body>
@@ -852,14 +955,12 @@
   <div class="hero-orb hero-orb-1"></div>
   <div class="hero-orb hero-orb-2"></div>
   <div class="hero-orb hero-orb-3"></div>
-  <span class="hero-ornament left">&#8220;</span>
-  <span class="hero-ornament right">&#8221;</span>
   <div class="reading">
     <span class="eyebrow reveal">Done-for-you newsletter service</span>
     <h1 class="reveal">We run your newsletter.<br/>You keep <em>all the credit</em>.</h1>
     <p class="lead reveal">Send us a 5-minute Loom. We write, design, and send a weekly newsletter your audience actually reads — in your voice, every single week.</p>
     <div class="hero-ctas reveal">
-      <a href="#cta" class="btn btn-primary">Let's build your newsletter <span class="arrow">→</span></a>
+      <a href="#cta" class="btn btn-primary">Book a free strategy call <span class="arrow">→</span></a>
       <a href="#results" class="btn btn-ghost">See examples</a>
     </div>
     <div class="trust-line reveal">
@@ -867,22 +968,32 @@
       <span class="item"><span class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.5L5 9l4.5-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>First issue in 7 days</span>
       <span class="item"><span class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.5L5 9l4.5-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Cancel anytime</span>
     </div>
-    <div style="margin-top:48px;">
-      <span class="scroll-cue"><span>scroll</span><span class="line"></span></span>
+    <div class="hero-proof reveal">
+      <p class="quote">"They helped us move away from a generic template into something that actually feels premium and well-aligned with our brand."</p>
+      <div class="author">— Jan, Founder of Cape May</div>
+      <div class="hero-proof-stats">
+        <span>20+ newsletters built</span>
+        <span>400k+ subscribers across client lists</span>
+        <span>6-figure revenue unlocked</span>
+      </div>
     </div>
   </div>
 </header>
 
-<!-- ============ SOCIAL PROOF ============ -->
-<section class="social-strip">
-  <div class="wrap social-inner">
-    <span class="social-label">Trusted by</span>
-    <div class="social-people">
-      <div class="person"><span class="avatar dusty">MK</span><div class="meta"><div class="name">Marcus K.</div><div class="role">Business Coach</div></div></div>
-      <div class="person"><span class="avatar purple">SR</span><div class="meta"><div class="name">Sophia R.</div><div class="role">Wellness Expert</div></div></div>
-      <div class="person"><span class="avatar forest">DL</span><div class="meta"><div class="name">Daniel L.</div><div class="role">Podcast Host</div></div></div>
-      <div class="person"><span class="avatar terra">AT</span><div class="meta"><div class="name">Aisha T.</div><div class="role">Finance Advisor</div></div></div>
-      <div class="person"><span class="avatar olive">JP</span><div class="meta"><div class="name">James P.</div><div class="role">Real Estate Investor</div></div></div>
+<!-- ============ LOGO STRIP ============ -->
+<section class="logo-strip">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:20px;">
+      <span class="social-label">Trusted by newsletter operators behind</span>
+    </div>
+    <div class="logo-strip-inner">
+      <span class="logo-chip">The Asymmetric Edge</span>
+      <span class="logo-chip">Cape May Wealth</span>
+      <span class="logo-chip">Earth Conscious Life</span>
+      <span class="logo-chip">Stacked Seller</span>
+      <span class="logo-chip">VibeScaling</span>
+      <span class="logo-chip">The Clarity Drop</span>
+      <span class="logo-chip">Columbus Curiosity</span>
     </div>
   </div>
 </section>
@@ -966,39 +1077,30 @@
 
 <!-- ============ CLIENT RESULTS ============ -->
 <section class="section section--warm" id="results">
+  <div class="reading center">
+    <span class="eyebrow reveal">Client results</span>
+    <h2 class="reveal">Proof that supports the <em>whole system.</em></h2>
+    <p class="lead reveal">The point is not just another good-looking email. It is a cleaner system for publishing, onboarding, converting, and staying in front of your audience every week.</p>
+  </div>
+
   <div class="wrap">
-    <div class="reveal" style="max-width:780px; margin-bottom:64px;">
-      <span class="eyebrow">Client results</span>
-      <h2>From inconsistent sends to<br/><em>10x newsletter revenue</em>.</h2>
+    <div class="test-card reveal" style="max-width:860px;margin:54px auto 0;">
+      <div class="stars">★★★★★</div>
+      <p class="q" style="font-family:var(--serif);font-style:italic;font-size:clamp(17px,2vw,23px);line-height:1.42;color:var(--ink);letter-spacing:-0.015em;">"Newsletter Engine handled the entire newsletter design and infrastructure from scratch. Unconventional compared to typical template sites. Zero-chaos thanks to their onboarding Notion doc."</p>
+      <div class="test-foot">
+        <div class="test-author">
+          <span class="avatar olive">CP</span>
+          <div><div class="name">Chris Piper</div><div class="role">Founder of The Growth Operator</div></div>
+        </div>
+        <span class="handle">Full newsletter infrastructure</span>
+      </div>
     </div>
 
-    <div class="grid-2" style="align-items:center;">
-      <div class="reveal">
-        <div class="video-frame" role="button" aria-label="Play case study">
-          <div class="play-btn">
-            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-        </div>
-        <div class="video-caption">Watch: how Marcus 10x'd his newsletter revenue in 90 days</div>
-      </div>
-
-      <div class="reveal">
-        <p class="results-quote">"I finally feel like I'm talking to my audience, not just posting into the void."</p>
-        <div class="stat-row">
-          <div class="stat">
-            <div class="v">1<em>×</em>→5<em>×</em></div>
-            <div class="l">Sends per week</div>
-          </div>
-          <div class="stat">
-            <div class="v">10<em>×</em></div>
-            <div class="l">Newsletter revenue</div>
-          </div>
-          <div class="stat">
-            <div class="v"><em>Hands off</em></div>
-            <div class="l">Time spent writing</div>
-          </div>
-        </div>
-      </div>
+    <div class="proof-mini-grid reveal">
+      <div class="proof-mini"><div class="num">20+</div><div class="lbl">Newsletters built</div></div>
+      <div class="proof-mini"><div class="num">400k+</div><div class="lbl">Subscribers across lists</div></div>
+      <div class="proof-mini"><div class="num">6 figs</div><div class="lbl">Revenue unlocked</div></div>
+      <div class="proof-mini"><div class="num">60%+</div><div class="lbl">Open rates achieved</div></div>
     </div>
   </div>
 </section>
@@ -1006,58 +1108,90 @@
 <!-- ============ TESTIMONIALS ============ -->
 <section class="section section--white">
   <div class="reading center">
-    <span class="eyebrow reveal">Done-for-you newsletter service</span>
-    <h2 class="reveal">Real people. <em>Real results.</em></h2>
+    <span class="eyebrow reveal">What clients say</span>
+    <h2 class="reveal">Built by people who understand the <em>whole system.</em></h2>
+    <p class="lead reveal">Custom pages, newsletter templates, automations, onboarding flows, and real systems that make the list feel like an asset.</p>
   </div>
 
   <div class="wrap">
+    <div class="proof-mini-grid reveal" style="margin-bottom:48px;">
+      <div class="proof-mini"><div class="num">20+</div><div class="lbl">Newsletters built</div></div>
+      <div class="proof-mini"><div class="num">400k+</div><div class="lbl">Subscribers across lists</div></div>
+      <div class="proof-mini"><div class="num">$0.43</div><div class="lbl">Lowest CPA seen</div></div>
+      <div class="proof-mini"><div class="num">60%+</div><div class="lbl">Open rates achieved</div></div>
+    </div>
+
     <div class="test-grid">
 
       <div class="test-card reveal">
         <div class="stars">★★★★★</div>
-        <p class="q">"I had 1,200 subscribers sitting dormant. Within 90 days two of them became <b>high-ticket coaching clients.</b> The ROI was immediate and I didn't write a single word."</p>
+        <p class="q">"The Newsletter Engine team helped us redesign our newsletter setup and move away from a generic template into something that actually feels premium and well-aligned with our brand. Cameron and Imraan were extremely proactive, quick to respond, and provided first-hand experience where we didn't have a strong opinion."</p>
         <div class="test-foot">
           <div class="test-author">
-            <span class="avatar dusty">MK</span>
-            <div><div class="name">Marcus K.</div><div class="role">Business Coach, Toronto</div></div>
+            <span class="avatar dusty">JV</span>
+            <div><div class="name">Jan</div><div class="role">Founder of Cape May</div></div>
           </div>
-          <span class="handle">@marcus_k</span>
+          <span class="handle">Newsletter redesign</span>
         </div>
       </div>
 
       <div class="test-card reveal">
         <div class="stars">★★★★★</div>
-        <p class="q">"My open rates went from <b>18% to 51% in 6 weeks.</b> My audience is actually replying to emails, now. That never happened before Newsletter Engine."</p>
+        <p class="q">"Newsletter Engine didn't just build a newsletter, they built an experience. It's noir with restraint. Masculine without ego. They handled the tech, crafted custom pages, and made sure every connection ran smooth. Zero chaos. Just clean execution."</p>
         <div class="test-foot">
           <div class="test-author">
-            <span class="avatar purple">SR</span>
-            <div><div class="name">Sophia R.</div><div class="role">Nutrition &amp; Wellness Coach</div></div>
+            <span class="avatar forest">M</span>
+            <div><div class="name">Mike</div><div class="role">Founder of The Clarity Drop</div></div>
           </div>
-          <span class="handle">@sophiar</span>
+          <span class="handle">Custom pages</span>
         </div>
       </div>
 
       <div class="test-card reveal">
         <div class="stars">★★★★★</div>
-        <p class="q">"As a podcast host I was already creating content. Newsletter Engine turned that into a <b>second revenue channel that now outperforms my social media combined.</b>"</p>
+        <p class="q">"Cameron and Imraan know newsletter systems inside out. They designed my website, set up the full instance, and solved all the issues I ran into. Great team to work with!"</p>
         <div class="test-foot">
           <div class="test-author">
-            <span class="avatar forest">DL</span>
-            <div><div class="name">Daniel L.</div><div class="role">Podcast Host &amp; Founder</div></div>
+            <span class="avatar purple">J</span>
+            <div><div class="name">Jay</div><div class="role">Founder of Stacked Seller</div></div>
           </div>
-          <span class="handle">@danny_pods</span>
+          <span class="handle">Full setup</span>
         </div>
       </div>
 
       <div class="test-card reveal">
         <div class="stars">★★★★★</div>
-        <p class="q">"I'd been meaning to start a newsletter for two years. Newsletter Engine did the whole thing in a week and <b>I immediately sounded like me.</b> Genuinely shocked."</p>
+        <p class="q">"They were fast, nailed the design, and came with real best practices, not just surface-level stuff. They also showed me automations I wouldn't have set up on my own. Highly recommend."</p>
         <div class="test-foot">
           <div class="test-author">
-            <span class="avatar terra">AT</span>
-            <div><div class="name">Aisha T.</div><div class="role">Financial Advisor, NYC</div></div>
+            <span class="avatar terra">CB</span>
+            <div><div class="name">Chris Balestras</div><div class="role">Founder of GTMBA &amp; VibeScaling</div></div>
           </div>
-          <span class="handle">@aisha_fin</span>
+          <span class="handle">Design + automations</span>
+        </div>
+      </div>
+
+      <div class="test-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="q">"Newsletter Engine handled the entire newsletter design and infrastructure from scratch. Unconventional compared to typical template sites. Zero-chaos thanks to their onboarding Notion doc. You can tell they genuinely love this stuff."</p>
+        <div class="test-foot">
+          <div class="test-author">
+            <span class="avatar olive">CP</span>
+            <div><div class="name">Chris Piper</div><div class="role">Founder of The Growth Operator</div></div>
+          </div>
+          <span class="handle">Full infrastructure</span>
+        </div>
+      </div>
+
+      <div class="test-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="q">"Easily the most knowledgeable person on the market when it comes to newsletter creation and scaling. I'm close to 10,000 subs."</p>
+        <div class="test-foot">
+          <div class="test-author">
+            <span class="avatar dusty">N</span>
+            <div><div class="name">Nate</div><div class="role">Founder of Columbus Curiosity</div></div>
+          </div>
+          <span class="handle">Newsletter scaling</span>
         </div>
       </div>
 

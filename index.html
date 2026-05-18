@@ -928,57 +928,74 @@
   @media (max-width: 760px) { .proof-mini-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 420px) { .proof-mini-grid { grid-template-columns: 1fr; } }
 
-  /* ===== Portfolio / Work examples ===== */
-  .work-grid {
+  /* ===== Client roster ===== */
+  .roster-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    overflow: hidden;
     margin-top: 56px;
   }
-  @media (max-width: 1000px) { .work-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px)  { .work-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .roster-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 500px) { .roster-grid { grid-template-columns: 1fr; } }
 
-  .work-card {
+  .roster-item {
     background: #fff;
-    border: 1px solid var(--rule);
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: var(--shadow-card);
-    transition: transform .28s ease, box-shadow .28s ease;
+    padding: 26px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: background .2s ease;
   }
-  .work-card:hover { transform: translateY(-6px); box-shadow: 0 28px 58px -24px rgba(20,17,13,0.22); }
+  .roster-item:hover { background: #faf7f1; }
 
-  .work-shot {
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-    border-bottom: 1px solid var(--rule-soft);
-    position: relative;
-    background: var(--bg-warm);
+  .roster-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
   }
-  .work-shot img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-    display: block;
-    transition: transform .5s ease;
+  .roster-active {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px var(--accent-soft);
   }
-  .work-card:hover .work-shot img { transform: scale(1.04); }
-
-  .work-content { padding: 18px 20px 20px; }
-  .work-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-  .work-tag {
+  .roster-niche {
     font-size: 10px;
-    letter-spacing: 0.08em;
+    font-weight: 600;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--muted);
-    background: var(--bg-warm);
-    border: 1px solid var(--rule-soft);
-    border-radius: 999px;
-    padding: 4px 9px;
   }
-  .work-content h3 { font-size: 20px; margin: 0 0 8px; }
-  .work-content p { color: var(--muted); font-size: 14px; line-height: 1.6; margin: 0; }
+  .roster-name {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    font-variation-settings: "opsz" 144;
+  }
+  .roster-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .roster-freq {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+    margin-top: 4px;
+    border-top: 1px solid var(--rule-soft);
+    padding-top: 10px;
+  }
 
 </style>
 </head>
@@ -1162,98 +1179,90 @@
   <div class="reading center">
     <span class="eyebrow reveal">Live in the wild</span>
     <h2 class="reveal">Newsletters we <em>run every week.</em></h2>
-    <p class="lead reveal">Across every niche. Real audiences. Consistently sending. This is what it looks like when we take over.</p>
+    <p class="lead reveal">Across every niche. Real audiences. Consistently sending.</p>
   </div>
 
   <div class="wrap">
-    <div class="work-grid">
+    <div class="roster-grid reveal">
 
-      <div class="work-card reveal">
-        <div class="work-shot">
-          <img src="images/image (6) (1).png" alt="The Leader's Leverage" loading="lazy"/>
+      <div class="roster-item">
+        <div class="roster-top">
+          <span class="roster-active"></span>
+          <span class="roster-niche">B2B Sales</span>
         </div>
-        <div class="work-content">
-          <div class="work-tags"><span class="work-tag">B2B Sales</span><span class="work-tag">Weekly</span></div>
-          <h3>The Leader's Leverage</h3>
-          <p>Weekly AI workflows and sales systems hitting inboxes of B2B reps trying to close more pipeline.</p>
-        </div>
+        <div class="roster-name">The Leader's Leverage</div>
+        <div class="roster-desc">Weekly AI workflows and sales systems for B2B reps closing more pipeline.</div>
+        <div class="roster-freq">Weekly</div>
       </div>
 
-      <div class="work-card reveal">
-        <div class="work-shot">
-          <img src="images/image (8) (1).png" alt="Stacked Seller" loading="lazy"/>
+      <div class="roster-item">
+        <div class="roster-top">
+          <span class="roster-active"></span>
+          <span class="roster-niche">Sales</span>
         </div>
-        <div class="work-content">
-          <div class="work-tags"><span class="work-tag">Sales</span><span class="work-tag">Weekly</span></div>
-          <h3>Stacked Seller</h3>
-          <p>Sharp weekly tactics read by AEs at HubSpot, Workday, and Okta to sharpen their game in 5 minutes.</p>
-        </div>
+        <div class="roster-name">Stacked Seller</div>
+        <div class="roster-desc">Sharp tactics for AEs at HubSpot, Workday, and Okta. 5 minutes a week.</div>
+        <div class="roster-freq">Weekly</div>
       </div>
 
-      <div class="work-card reveal">
-        <div class="work-shot">
-          <img src="images/image (15).png" alt="VibeScaling" loading="lazy"/>
+      <div class="roster-item">
+        <div class="roster-top">
+          <span class="roster-active"></span>
+          <span class="roster-niche">GTM / AI</span>
         </div>
-        <div class="work-content">
-          <div class="work-tags"><span class="work-tag">GTM / AI</span><span class="work-tag">11,000+ subs</span></div>
-          <h3>VibeScaling</h3>
-          <p>Weekly GTM and AI breakdowns for startup operators. One of the fastest-growing newsletters in the space.</p>
-        </div>
+        <div class="roster-name">VibeScaling</div>
+        <div class="roster-desc">GTM and AI breakdowns for startup operators. One of the fastest-growing in the space.</div>
+        <div class="roster-freq">11,000+ subs · Weekly</div>
       </div>
 
-      <div class="work-card reveal">
-        <div class="work-shot">
-          <img src="images/image (14).png" alt="Centaur OS" loading="lazy"/>
+      <div class="roster-item">
+        <div class="roster-top">
+          <span class="roster-active"></span>
+          <span class="roster-niche">AI / Markets</span>
         </div>
-        <div class="work-content">
-          <div class="work-tags"><span class="work-tag">AI / Markets</span><span class="work-tag">Twice-weekly</span></div>
-          <h3>Centaur OS</h3>
-          <p>Insights on AI, geopolitics, and markets sent twice a week to people who make high-stakes decisions.</p>
-        </div>
+        <div class="roster-name">Centaur OS</div>
+        <div class="roster-desc">AI, geopolitics, and markets for people who make high-stakes decisions.</div>
+        <div class="roster-freq">Twice-weekly</div>
       </div>
 
-      <div class="work-card reveal">
-        <div class="work-shot">
-          <img src="images/image (13).png" alt="The Cactus Club" loading="lazy"/>
+      <div class="roster-item">
+        <div class="roster-top">
+          <span class="roster-active"></span>
+          <span class="roster-niche">Finance / Wealth</span>
         </div>
-        <div class="work-content">
-          <div class="work-tags"><span class="work-tag">Lifestyle / Golf</span><span class="work-tag">Weekly</span></div>
-          <h3>The Cactus Club</h3>
-          <p>Arizona's go-to golf newsletter, landing in local readers' inboxes every week with courses, events, and insider picks.</p>
-        </div>
+        <div class="roster-name">Cape May Wealth</div>
+        <div class="roster-desc">Asset allocation and investment insights for affluent entrepreneurs.</div>
+        <div class="roster-freq">Weekly</div>
       </div>
 
-      <div class="work-card reveal">
-        <div class="work-shot">
-          <img src="images/image (12).png" alt="Cape May Wealth" loading="lazy"/>
+      <div class="roster-item">
+        <div class="roster-top">
+          <span class="roster-active"></span>
+          <span class="roster-niche">Investing</span>
         </div>
-        <div class="work-content">
-          <div class="work-tags"><span class="work-tag">Finance / Wealth</span><span class="work-tag">Weekly</span></div>
-          <h3>Cape May Wealth</h3>
-          <p>Weekly asset allocation and investment insights for affluent entrepreneurs who don't have a family office.</p>
-        </div>
+        <div class="roster-name">The Asymmetric Edge</div>
+        <div class="roster-desc">Model portfolios and asymmetric plays for serious retail investors.</div>
+        <div class="roster-freq">Monthly</div>
       </div>
 
-      <div class="work-card reveal">
-        <div class="work-shot">
-          <img src="images/image (1) (1).png" alt="The Asymmetric Edge" loading="lazy"/>
+      <div class="roster-item">
+        <div class="roster-top">
+          <span class="roster-active"></span>
+          <span class="roster-niche">Entrepreneurship</span>
         </div>
-        <div class="work-content">
-          <div class="work-tags"><span class="work-tag">Investing</span><span class="work-tag">Monthly</span></div>
-          <h3>The Asymmetric Edge</h3>
-          <p>Model portfolios and asymmetric investment plays delivered to serious retail investors who do their homework.</p>
-        </div>
+        <div class="roster-name">Front-Line Tactics</div>
+        <div class="roster-desc">Online business tactics trusted by 21,000+ entrepreneurs for over a decade.</div>
+        <div class="roster-freq">21,000+ subs · Weekly</div>
       </div>
 
-      <div class="work-card reveal">
-        <div class="work-shot">
-          <img src="images/image (11).png" alt="Front-Line Tactics" loading="lazy"/>
+      <div class="roster-item">
+        <div class="roster-top">
+          <span class="roster-active"></span>
+          <span class="roster-niche">Lifestyle / Golf</span>
         </div>
-        <div class="work-content">
-          <div class="work-tags"><span class="work-tag">Entrepreneurship</span><span class="work-tag">21,000+ subs</span></div>
-          <h3>Front-Line Tactics</h3>
-          <p>Weekly tactics for online business builders. Trusted by 21,000+ entrepreneurs and running strong for over a decade.</p>
-        </div>
+        <div class="roster-name">The Cactus Club</div>
+        <div class="roster-desc">Arizona's go-to golf insider. Courses, events, and picks for locals who love the game.</div>
+        <div class="roster-freq">Weekly</div>
       </div>
 
     </div>

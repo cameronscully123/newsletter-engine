@@ -685,11 +685,17 @@
   .signal-hub-wrap {
     position: relative;
     width: 100%;
-    height: 380px;
-    border-radius: 20px;
-    background: #f7f5f1;
+    height: 420px;
+    border-radius: 22px;
+    background:
+      radial-gradient(circle at 50% 48%, rgba(47,125,81,0.10), transparent 36%),
+      linear-gradient(180deg, #fbf8f1 0%, #f3eee5 100%);
     border: 1px solid var(--rule);
     overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+  @media (max-width: 900px) {
+    .signal-hub-wrap { height: 380px; }
   }
   #signalCanvas {
     position: absolute;
@@ -1274,7 +1280,7 @@
           <span class="roster-active"></span>
           <span class="roster-niche">Entrepreneurship</span>
         </div>
-        <div class="roster-name">A Better Lemonade Stand</div>
+        <div class="roster-name">Front-Line Tactics</div>
         <div class="roster-desc">Online business tactics trusted by 21,000+ entrepreneurs for over a decade.</div>
         <div class="roster-freq">21,000+ subs · Weekly</div>
       </div>
@@ -1506,25 +1512,36 @@
     const wrap = document.getElementById('signalHub');
     const canvas = document.getElementById('signalCanvas');
     if (!canvas || !wrap) return;
-    const ctx = canvas.getContext('2d');
-    let W, H, dpr, raf, running = false, t = 0, lastSpawn = -1;
-    const particles = [];
 
-    const ACCENT = '#3d7a5f';
-    const ACCENT_SOFT = 'rgba(61,122,95,';
+    const ctx = canvas.getContext('2d');
+    let W, H, dpr, raf, running = false, t = 0;
+    let lastInbound = -1;
+    let lastOutbound = -1;
+
+    const inboundParticles = [];
+    const outboundParticles = [];
+    const outcomeHits = [0, 0, 0];
+
+    const ACCENT = '#2f7d51';
+    const ACCENT_DARK = '#225d3b';
     const INK = '#14110d';
-    const MUTED = '#9a9288';
-    const RULE = '#e8e3da';
+    const MUTED = '#7b746b';
+    const RULE = '#e6e0d3';
+    const BG_CARD = 'rgba(255,255,255,0.82)';
 
     const SOURCES = [
-      { label: 'LinkedIn',   color: '#0A66C2' },
-      { label: 'YouTube',    color: '#FF0000' },
-      { label: 'X / Twitter',color: '#555'    },
-      { label: 'Podcasts',   color: '#8B5CF6' },
-      { label: 'Instagram',  color: '#E1306C' },
+      { label: 'LinkedIn',    color: '#0A66C2' },
+      { label: 'YouTube',     color: '#FF4D4D' },
+      { label: 'X / Twitter', color: '#5b5752' },
+      { label: 'Podcasts',    color: '#8B5CF6' },
+      { label: 'Instagram',   color: '#E1306C' },
     ];
 
-    const OUT = ['Builds trust', 'Drives sales', 'Compounds over time'];
+    const OUTCOMES = [
+      { label: 'Builds trust',          sub: 'consistent ideas' },
+      { label: 'Drives sales',          sub: 'warm readers act' },
+      { label: 'Compounds over time',   sub: 'owned audience' },
+    ];
 
     function resize() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -1537,214 +1554,278 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    /* Layout helpers */
-    const hx = () => W * 0.50;
-    const hy = () => H * 0.50;
-    const sx = () => W * 0.10;
-    const sy = (i) => H * (0.14 + i * 0.18);
-    const ox = () => W * 0.76;
-    const oy = (i) => H * (0.28 + i * 0.22);
+    const hubX = () => W * 0.48;
+    const hubY = () => H * 0.50;
+    const sourceX = () => W * 0.08;
+    const sourceY = (i) => H * (0.16 + i * 0.17);
+    const cardW = () => Math.min(190, Math.max(142, W * 0.30));
+    const cardH = () => 56;
+    const outcomeX = () => Math.min(W - cardW() - 18, W * 0.67);
+    const outcomeY = (i) => H * (0.24 + i * 0.22);
 
-    function spawnParticle(i) {
-      const ex = hx(), ey = hy();
-      const startX = sx() + 6, startY = sy(i);
-      const cp1x = startX + (ex - startX) * 0.4;
-      const cp1y = startY + (ey - startY) * 0.1 - 30;
-      const cp2x = startX + (ex - startX) * 0.7;
-      const cp2y = ey - 20;
-      particles.push({
-        sx: startX, sy: startY,
-        cp1x, cp1y, cp2x, cp2y,
-        ex, ey,
-        p: 0,
-        speed: 0.007 + Math.random() * 0.005,
-        r: 2.2 + Math.random() * 1.2,
-        color: SOURCES[i].color,
-      });
+    function roundedRect(x, y, w, h, r) {
+      const rr = Math.min(r, w / 2, h / 2);
+      ctx.beginPath();
+      ctx.moveTo(x + rr, y);
+      ctx.arcTo(x + w, y, x + w, y + h, rr);
+      ctx.arcTo(x + w, y + h, x, y + h, rr);
+      ctx.arcTo(x, y + h, x, y, rr);
+      ctx.arcTo(x, y, x + w, y, rr);
+      ctx.closePath();
     }
 
-    function cubicAt(t, p0, p1, p2, p3) {
-      const u = 1 - t;
-      return u*u*u*p0 + 3*u*u*t*p1 + 3*u*t*t*p2 + t*t*t*p3;
+    function cubicAt(tt, p0, p1, p2, p3) {
+      const u = 1 - tt;
+      return u*u*u*p0 + 3*u*u*tt*p1 + 3*u*tt*tt*p2 + tt*tt*tt*p3;
+    }
+
+    function drawArrowHead(x, y, angle, color, alpha) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = color;
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(-8, -4);
+      ctx.lineTo(-8, 4);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function inboundPath(i) {
+      const sx = sourceX() + 8, sy = sourceY(i);
+      const hx = hubX(), hy = hubY();
+      return {
+        sx, sy,
+        cp1x: sx + (hx - sx) * 0.34,
+        cp1y: sy - 28,
+        cp2x: sx + (hx - sx) * 0.74,
+        cp2y: hy - 26,
+        ex: hx - 30,
+        ey: hy
+      };
+    }
+
+    function outboundPath(i) {
+      const hx = hubX(), hy = hubY();
+      const x = outcomeX(), y = outcomeY(i) + cardH()/2;
+      return {
+        sx: hx + 30, sy: hy,
+        cp1x: hx + 70,
+        cp1y: hy + (y - hy) * 0.12,
+        cp2x: x - 56,
+        cp2y: y,
+        ex: x - 10,
+        ey: y,
+        angle: Math.atan2(y - hy, (x - 10) - (hx + 30))
+      };
+    }
+
+    function spawnInbound() {
+      const i = Math.floor(Math.random() * SOURCES.length);
+      inboundParticles.push({ ...inboundPath(i), p: 0, speed: 0.006 + Math.random() * 0.004, r: 2.2 + Math.random() * 1.4, color: SOURCES[i].color });
+    }
+
+    function spawnOutbound() {
+      const i = Math.floor(Math.random() * OUTCOMES.length);
+      outboundParticles.push({ ...outboundPath(i), outcome: i, p: 0, speed: 0.007 + Math.random() * 0.004, r: 2.5 + Math.random() * 1.1, color: ACCENT });
+    }
+
+    function drawParticle(p) {
+      const px = cubicAt(p.p, p.sx, p.cp1x, p.cp2x, p.ex);
+      const py = cubicAt(p.p, p.sy, p.cp1y, p.cp2y, p.ey);
+      const alpha = Math.sin(p.p * Math.PI);
+
+      ctx.save();
+      ctx.globalAlpha = alpha * 0.20;
+      ctx.beginPath();
+      ctx.arc(px, py, p.r + 6, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.globalAlpha = alpha * 0.92;
+      ctx.beginPath();
+      ctx.arc(px, py, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      ctx.restore();
     }
 
     function drawFrame() {
       ctx.clearRect(0, 0, W, H);
-      const cx = hx(), cy = hy();
+      const hx = hubX(), hy = hubY();
 
-      /* --- faint curved paths from sources to hub --- */
-      SOURCES.forEach((_, i) => {
-        const startX = sx() + 6, startY = sy(i);
-        const cp1x = startX + (cx - startX) * 0.4;
-        const cp1y = startY + (cy - startY) * 0.1 - 30;
-        const cp2x = startX + (cx - startX) * 0.7;
-        const cp2y = cy - 20;
+      /* source labels + incoming dotted lines */
+      SOURCES.forEach((s, i) => {
+        const path = inboundPath(i);
         ctx.save();
-        ctx.globalAlpha = 0.10;
+        ctx.globalAlpha = 0.13;
         ctx.strokeStyle = MUTED;
         ctx.lineWidth = 1;
         ctx.setLineDash([2, 6]);
         ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, cx, cy);
+        ctx.moveTo(path.sx, path.sy);
+        ctx.bezierCurveTo(path.cp1x, path.cp1y, path.cp2x, path.cp2y, path.ex, path.ey);
         ctx.stroke();
         ctx.restore();
-      });
 
-      /* --- faint lines hub → output --- */
-      OUT.forEach((_, i) => {
+        const pulse = 0.62 + 0.25 * Math.sin(t * 2 + i * 1.7);
         ctx.save();
-        ctx.globalAlpha = 0.12;
-        ctx.strokeStyle = ACCENT;
-        ctx.lineWidth = 1;
-        ctx.setLineDash([2, 5]);
+        ctx.globalAlpha = pulse;
         ctx.beginPath();
-        ctx.moveTo(cx + 28, cy);
-        ctx.bezierCurveTo(cx + 60, cy, ox() - 30, oy(i), ox(), oy(i));
-        ctx.stroke();
-        ctx.restore();
-      });
-
-      /* --- source nodes + labels --- */
-      SOURCES.forEach((s, i) => {
-        const x = sx(), y = sy(i);
-        const flicker = 0.55 + 0.25 * Math.sin(t * 2.3 + i * 1.9);
-
-        /* coloured dot */
-        ctx.save();
-        ctx.globalAlpha = flicker * 0.85;
-        ctx.beginPath();
-        ctx.arc(x + 6, y, 5, 0, Math.PI * 2);
+        ctx.arc(sourceX() + 8, sourceY(i), 5, 0, Math.PI * 2);
         ctx.fillStyle = s.color;
         ctx.fill();
         ctx.restore();
 
-        /* label */
         ctx.save();
-        ctx.globalAlpha = flicker * 0.65;
+        ctx.globalAlpha = 0.62;
         ctx.font = '13px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
         ctx.fillStyle = INK;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-        ctx.fillText(s.label, x + 17, y);
+        ctx.fillText(s.label, sourceX() + 22, sourceY(i));
         ctx.restore();
       });
 
-      /* --- hub glow rings --- */
-      const pulse = 0.5 + 0.5 * Math.sin(t * 1.6);
-      [56, 42, 30].forEach((r, i) => {
+      /* outbound paths + arrowheads */
+      OUTCOMES.forEach((o, i) => {
+        const path = outboundPath(i);
+        const glow = outcomeHits[i];
+
         ctx.save();
-        ctx.globalAlpha = (0.055 - i * 0.014) * (0.7 + 0.3 * pulse);
+        ctx.globalAlpha = 0.22 + glow * 0.28;
+        ctx.strokeStyle = ACCENT;
+        ctx.lineWidth = 1.35;
+        ctx.setLineDash([2, 6]);
         ctx.beginPath();
-        ctx.arc(cx, cy, r + pulse * 6, 0, Math.PI * 2);
+        ctx.moveTo(path.sx, path.sy);
+        ctx.bezierCurveTo(path.cp1x, path.cp1y, path.cp2x, path.cp2y, path.ex, path.ey);
+        ctx.stroke();
+        ctx.restore();
+
+        drawArrowHead(path.ex, path.ey, path.angle, ACCENT, 0.35 + glow * 0.35);
+      });
+
+      /* outcome cards */
+      OUTCOMES.forEach((o, i) => {
+        const x = outcomeX(), y = outcomeY(i), w = cardW(), h = cardH();
+        const glow = outcomeHits[i];
+
+        ctx.save();
+        ctx.shadowColor = `rgba(47,125,81,${0.08 + glow * 0.18})`;
+        ctx.shadowBlur = 18 + glow * 18;
+        roundedRect(x, y, w, h, 14);
+        ctx.fillStyle = BG_CARD;
+        ctx.fill();
+        ctx.strokeStyle = glow > 0.1 ? 'rgba(47,125,81,0.45)' : RULE;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x + 17, y + h/2, 5, 0, Math.PI * 2);
+        ctx.fillStyle = ACCENT;
+        ctx.globalAlpha = 0.75 + glow * 0.25;
+        ctx.fill();
+        ctx.restore();
+
+        ctx.save();
+        ctx.fillStyle = INK;
+        ctx.font = '600 13px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(o.label, x + 30, y + 22);
+        ctx.fillStyle = MUTED;
+        ctx.font = '11px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
+        ctx.fillText(o.sub, x + 30, y + 39);
+        ctx.restore();
+      });
+
+      /* hub glow */
+      const pulse = 0.5 + 0.5 * Math.sin(t * 1.5);
+      [72, 56, 40].forEach((r, i) => {
+        ctx.save();
+        ctx.globalAlpha = (0.050 - i * 0.012) * (0.7 + 0.35 * pulse);
+        ctx.beginPath();
+        ctx.arc(hx, hy, r + pulse * 5, 0, Math.PI * 2);
         ctx.fillStyle = ACCENT;
         ctx.fill();
         ctx.restore();
       });
 
-      /* --- hub circle --- */
+      /* hub circle */
       ctx.save();
       ctx.beginPath();
-      ctx.arc(cx, cy, 28, 0, Math.PI * 2);
-      ctx.fillStyle = ACCENT;
+      ctx.arc(hx, hy, 31, 0, Math.PI * 2);
+      ctx.fillStyle = ACCENT_DARK;
       ctx.fill();
       ctx.restore();
 
-      /* --- envelope icon --- */
-      const ew = 22, eh = 15, ex2 = cx - ew/2, ey2 = cy - eh/2;
+      /* envelope icon */
+      const ew = 22, eh = 15, ex = hx - ew/2, ey = hy - eh/2;
       ctx.save();
-      ctx.strokeStyle = 'rgba(255,255,255,0.9)';
-      ctx.lineWidth = 1.6;
+      ctx.strokeStyle = 'rgba(255,255,255,0.92)';
+      ctx.lineWidth = 1.7;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      ctx.beginPath();
-      ctx.moveTo(ex2 + 3, ey2);
-      ctx.lineTo(ex2 + ew - 3, ey2);
-      ctx.quadraticCurveTo(ex2 + ew, ey2, ex2 + ew, ey2 + 3);
-      ctx.lineTo(ex2 + ew, ey2 + eh - 3);
-      ctx.quadraticCurveTo(ex2 + ew, ey2 + eh, ex2 + ew - 3, ey2 + eh);
-      ctx.lineTo(ex2 + 3, ey2 + eh);
-      ctx.quadraticCurveTo(ex2, ey2 + eh, ex2, ey2 + eh - 3);
-      ctx.lineTo(ex2, ey2 + 3);
-      ctx.quadraticCurveTo(ex2, ey2, ex2 + 3, ey2);
-      ctx.closePath();
+      roundedRect(ex, ey, ew, eh, 3);
       ctx.stroke();
       ctx.beginPath();
-      ctx.moveTo(ex2, ey2 + 2);
-      ctx.lineTo(cx, cy + 4);
-      ctx.lineTo(ex2 + ew, ey2 + 2);
+      ctx.moveTo(ex, ey + 2);
+      ctx.lineTo(hx, hy + 4);
+      ctx.lineTo(ex + ew, ey + 2);
       ctx.stroke();
       ctx.restore();
 
-      /* --- hub label --- */
       ctx.save();
-      ctx.font = '500 10px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
-      ctx.fillStyle = ACCENT;
+      ctx.font = '700 10px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
+      ctx.fillStyle = ACCENT_DARK;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
-      ctx.letterSpacing = '0.08em';
-      ctx.fillText('YOUR NEWSLETTER', cx, cy + 35);
+      ctx.fillText('YOUR NEWSLETTER', hx, hy + 40);
       ctx.restore();
 
-      /* --- output nodes + labels --- */
-      OUT.forEach((label, i) => {
-        const x = ox(), y = oy(i);
-        const pop = 0.6 + 0.2 * Math.sin(t * 1.2 + i * 2.1);
-        ctx.save();
-        ctx.globalAlpha = pop;
-        ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = ACCENT;
-        ctx.fill();
-        ctx.restore();
-        ctx.save();
-        ctx.globalAlpha = pop * 0.75;
-        ctx.font = '12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
-        ctx.fillStyle = INK;
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(label, x + 10, y);
-        ctx.restore();
-      });
-
-      /* --- particles --- */
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
+      /* particles */
+      for (let i = inboundParticles.length - 1; i >= 0; i--) {
+        const p = inboundParticles[i];
         p.p += p.speed;
-        if (p.p >= 1) { particles.splice(i, 1); continue; }
-        const tt = p.p;
-        const px = cubicAt(tt, p.sx, p.cp1x, p.cp2x, p.ex);
-        const py = cubicAt(tt, p.sy, p.cp1y, p.cp2y, p.ey);
-        const alpha = Math.sin(tt * Math.PI);
-        /* glow */
-        ctx.save();
-        ctx.globalAlpha = alpha * 0.25;
-        ctx.beginPath();
-        ctx.arc(px, py, p.r + 4, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-        ctx.restore();
-        /* core */
-        ctx.save();
-        ctx.globalAlpha = alpha * 0.9;
-        ctx.beginPath();
-        ctx.arc(px, py, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-        ctx.restore();
+        if (p.p >= 1) { inboundParticles.splice(i, 1); continue; }
+        drawParticle(p);
       }
 
-      /* --- spawn --- */
-      if (t - lastSpawn > 0.42) {
-        spawnParticle(Math.floor(Math.random() * SOURCES.length));
-        lastSpawn = t;
+      for (let i = outboundParticles.length - 1; i >= 0; i--) {
+        const p = outboundParticles[i];
+        p.p += p.speed;
+        if (p.p >= 1) {
+          outcomeHits[p.outcome] = 1;
+          outboundParticles.splice(i, 1);
+          continue;
+        }
+        drawParticle(p);
+      }
+
+      /* fade outcome card hits */
+      for (let i = 0; i < outcomeHits.length; i++) outcomeHits[i] *= 0.94;
+
+      if (t - lastInbound > 0.36) {
+        spawnInbound();
+        lastInbound = t;
+      }
+      if (t - lastOutbound > 0.62) {
+        spawnOutbound();
+        lastOutbound = t;
       }
 
       t += 1 / 60;
       raf = requestAnimationFrame(drawFrame);
     }
 
-    /* Start when scrolled into view */
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting && !running) {
@@ -1755,9 +1836,11 @@
         }
       });
     }, { threshold: 0.25 });
+
     obs.observe(wrap);
     window.addEventListener('resize', () => { if (running) resize(); });
   })();
+
 
   /* ---- Stagger hero reveals ---- */
   document.querySelectorAll('.hero .reveal').forEach((el, i) => {

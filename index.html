@@ -1559,9 +1559,9 @@
     const sourceX = () => W * 0.08;
     const sourceY = (i) => H * (0.16 + i * 0.17);
     /* Keep outcome cards inside the canvas and give text enough room */
-    const cardW = () => Math.min(210, Math.max(178, W * 0.37));
+    const cardW = () => Math.min(190, Math.max(160, W * 0.32));
     const cardH = () => 58;
-    const outcomeX = () => Math.min(W - cardW() - 20, W * 0.61);
+    const outcomeX = () => Math.min(W - cardW() - 14, W * 0.68);
     const outcomeY = (i) => H * (0.23 + i * 0.22);
 
     function roundedRect(x, y, w, h, r) {

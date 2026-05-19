@@ -1554,14 +1554,15 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    const hubX = () => W * 0.48;
+    const hubX = () => W * 0.46;
     const hubY = () => H * 0.50;
     const sourceX = () => W * 0.08;
     const sourceY = (i) => H * (0.16 + i * 0.17);
-    const cardW = () => Math.min(190, Math.max(142, W * 0.30));
-    const cardH = () => 56;
-    const outcomeX = () => Math.min(W - cardW() - 18, W * 0.67);
-    const outcomeY = (i) => H * (0.24 + i * 0.22);
+    /* Keep outcome cards inside the canvas and give text enough room */
+    const cardW = () => Math.min(210, Math.max(178, W * 0.37));
+    const cardH = () => 58;
+    const outcomeX = () => Math.min(W - cardW() - 20, W * 0.61);
+    const outcomeY = (i) => H * (0.23 + i * 0.22);
 
     function roundedRect(x, y, w, h, r) {
       const rr = Math.min(r, w / 2, h / 2);
@@ -1572,6 +1573,39 @@
       ctx.arcTo(x, y + h, x, y, rr);
       ctx.arcTo(x, y, x + w, y, rr);
       ctx.closePath();
+    }
+
+    function fitText(text, x, y, maxWidth, font, color) {
+      ctx.save();
+      ctx.font = font;
+      ctx.fillStyle = color;
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+
+      if (ctx.measureText(text).width <= maxWidth) {
+        ctx.fillText(text, x, y);
+        ctx.restore();
+        return;
+      }
+
+      const words = text.split(' ');
+      let line = '';
+      const lines = [];
+      words.forEach(word => {
+        const test = line ? line + ' ' + word : word;
+        if (ctx.measureText(test).width > maxWidth && line) {
+          lines.push(line);
+          line = word;
+        } else {
+          line = test;
+        }
+      });
+      if (line) lines.push(line);
+
+      const lineHeight = 14;
+      const startY = y - ((Math.min(lines.length, 2) - 1) * lineHeight / 2);
+      lines.slice(0, 2).forEach((l, idx) => ctx.fillText(l, x, startY + idx * lineHeight));
+      ctx.restore();
     }
 
     function cubicAt(tt, p0, p1, p2, p3) {
@@ -1735,15 +1769,21 @@
         ctx.fill();
         ctx.restore();
 
+        fitText(
+          o.label,
+          x + 30,
+          y + 22,
+          w - 42,
+          '600 12.5px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif',
+          INK
+        );
+
         ctx.save();
-        ctx.fillStyle = INK;
-        ctx.font = '600 13px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(o.label, x + 30, y + 22);
         ctx.fillStyle = MUTED;
         ctx.font = '11px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
-        ctx.fillText(o.sub, x + 30, y + 39);
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(o.sub, x + 30, y + 42);
         ctx.restore();
       });
 

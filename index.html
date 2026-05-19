@@ -217,6 +217,14 @@
     .nav-links { display: none; }
     .nav-inner { padding: 14px 22px; }
   }
+  .nav-btn-short { display: none; }
+  @media (max-width: 540px) {
+    .nav-btn-full { display: none; }
+    .nav-btn-short { display: inline; }
+    .wordmark { font-size: 16px; }
+    .nav .btn { padding: 9px 14px; font-size: 13px; }
+    .nav-inner { gap: 10px; }
+  }
 
   /* ===== Hero ===== */
   .hero {
@@ -700,6 +708,96 @@
   @media (max-width: 900px) {
     .signal-hub-wrap { height: 380px; }
   }
+  @media (max-width: 760px) {
+    .signal-hub-wrap { display: none; }
+  }
+
+  /* ===== Mobile signal hub static fallback ===== */
+  .shm { display: none; }
+  @media (max-width: 760px) {
+    .shm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      border-radius: 16px;
+      background: #f7f5f1;
+      border: 1px solid var(--rule);
+      padding: 28px 20px;
+    }
+    .shm-sources {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+    .shm-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 13px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      font-size: 12px;
+      font-family: var(--sans);
+      background: #fff;
+      color: var(--ink);
+    }
+    .shm-pill::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--dot, #888);
+      flex-shrink: 0;
+    }
+    .shm-arrow {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 12px 0;
+      line-height: 1;
+    }
+    .shm-hub {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 28px;
+      border: 1.5px solid var(--ink);
+      border-radius: 14px;
+      background: #fff;
+      font-family: var(--serif);
+      font-size: 16px;
+      color: var(--ink);
+      box-shadow: 0 4px 20px rgba(20,17,13,.06);
+    }
+    .shm-outcomes {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+      max-width: 240px;
+    }
+    .shm-outcome {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      font-size: 13px;
+      font-family: var(--sans);
+      color: var(--ink);
+    }
+    .shm-outcome::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+  }
+
   #signalCanvas {
     position: absolute;
     inset: 0;
@@ -1059,7 +1157,7 @@
       <a href="#who">Who it's for</a>
       <a href="#results">Results</a>
     </div>
-    <a href="https://form.typeform.com/to/S6w11Pw6" target="_blank" rel="noopener" class="btn btn-primary">Book a free strategy session</a>
+    <a href="https://form.typeform.com/to/S6w11Pw6" target="_blank" rel="noopener" class="btn btn-primary"><span class="nav-btn-full">Book a free strategy session</span><span class="nav-btn-short">Book a call</span></a>
   </div>
 </nav>
 
@@ -1127,6 +1225,27 @@
       <div class="reveal">
         <div class="signal-hub-wrap" id="signalHub">
           <canvas id="signalCanvas"></canvas>
+        </div>
+        <!-- Mobile static fallback -->
+        <div class="shm">
+          <div class="shm-sources">
+            <span class="shm-pill" style="--dot:#0A66C2">LinkedIn</span>
+            <span class="shm-pill" style="--dot:#FF4D4D">YouTube</span>
+            <span class="shm-pill" style="--dot:#8B5CF6">Podcasts</span>
+            <span class="shm-pill" style="--dot:#E1306C">Instagram</span>
+            <span class="shm-pill" style="--dot:#555">X / Twitter</span>
+          </div>
+          <div class="shm-arrow">↓</div>
+          <div class="shm-hub">
+            <svg width="22" height="17" viewBox="0 0 22 17" fill="none"><rect x="1" y="1" width="20" height="15" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M1 4.5l10 6.5 10-6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Your Newsletter
+          </div>
+          <div class="shm-arrow">↓</div>
+          <div class="shm-outcomes">
+            <div class="shm-outcome">Builds trust</div>
+            <div class="shm-outcome">Drives sales</div>
+            <div class="shm-outcome">Compounds over time</div>
+          </div>
         </div>
       </div>
     </div>

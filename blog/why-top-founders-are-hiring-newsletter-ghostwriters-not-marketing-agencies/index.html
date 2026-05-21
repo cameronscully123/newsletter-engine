@@ -20,8 +20,9 @@
   ::selection{background:var(--ink);color:var(--bg);}
   .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,241,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);}
   .nav-inner{max-width:1100px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
-  .wordmark{font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:-0.02em;font-variation-settings:"opsz" 144;}
-  .wordmark .dot{width:6px;height:6px;border-radius:50%;background:var(--ink);display:inline-block;transform:translateY(-3px);}
+  .wordmark{font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:-0.02em;font-variation-settings:"opsz" 144;display:inline-flex;align-items:center;gap:9px;}
+  .wordmark .dot{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;}
+  .logo-icon{flex-shrink:0;display:block;}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:8px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;border:none;}
   .btn-primary{background:var(--ink);color:var(--bg);}
   .btn-primary:hover{background:#2a2620;}
@@ -62,7 +63,7 @@
 
 <nav class="nav">
   <div class="nav-inner">
-    <a href="/" class="wordmark">Newsletter Engine<span class="dot"></span></a>
+    <a href="/" class="wordmark"><svg class="logo-icon" width="26" height="21" viewBox="0 0 26 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="1" width="24" height="19" rx="3.5" stroke="currentColor" stroke-width="1.6"/><path d="M1 6L13 14l12-8" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><circle cx="21.5" cy="5.5" r="3.5" fill="#2f7d51"/></svg> Newsletter Engine<span class="dot"></span></a>
     <a href="https://form.typeform.com/to/S6w11Pw6" target="_blank" rel="noopener" class="btn btn-primary">Book a free strategy session</a>
   </div>
 </nav>

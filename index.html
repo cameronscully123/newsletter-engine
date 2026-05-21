@@ -182,10 +182,11 @@
     letter-spacing: -0.02em;
     color: var(--ink);
     display: inline-flex;
-    align-items: baseline;
-    gap: 6px;
+    align-items: center;
+    gap: 9px;
   }
-  .wordmark .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink); display: inline-block; transform: translateY(-3px); }
+  .wordmark .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink); display: inline-block; }
+  .logo-icon { flex-shrink: 0; display: block; }
   .nav-links {
     display: flex;
     gap: 36px;
@@ -1148,7 +1149,14 @@
 <!-- ============ NAV ============ -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="#" class="wordmark">Newsletter Engine<span class="dot"></span></a>
+    <a href="#" class="wordmark">
+      <svg class="logo-icon" width="26" height="21" viewBox="0 0 26 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="1" y="1" width="24" height="19" rx="3.5" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M1 6L13 14l12-8" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="21.5" cy="5.5" r="3.5" fill="#2f7d51"/>
+      </svg>
+      Newsletter Engine<span class="dot"></span>
+    </a>
     <div class="nav-links">
       <a href="#how">How it works</a>
       <a href="#who">Who it's for</a>
@@ -1607,7 +1615,14 @@
 <!-- ============ FOOTER ============ -->
 <footer>
   <div class="foot-inner">
-    <span class="wordmark" style="font-size:18px;">Newsletter Engine<span class="dot"></span></span>
+    <span class="wordmark" style="font-size:18px;">
+      <svg class="logo-icon" width="22" height="18" viewBox="0 0 26 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="1" y="1" width="24" height="19" rx="3.5" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M1 6L13 14l12-8" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="21.5" cy="5.5" r="3.5" fill="#2f7d51"/>
+      </svg>
+      Newsletter Engine<span class="dot"></span>
+    </span>
     <span>© 2026 Newsletter Engine. All rights reserved.</span>
     <a href="mailto:hello@newsletterengine.com">hello@newsletterengine.com</a>
   </div>

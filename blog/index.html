@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Blog | Newsletter Engine</title>
+<meta name="description" content="Insights on newsletters, content strategy, and building an audience that converts."/>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  
+  :root{--bg:#faf7f1;--bg-warm:#f4efe6;--ink:#14110d;--ink-soft:#2a2620;--muted:#6e6860;--rule:#e6e0d3;--accent:#2f7d51;--accent-soft:#d8e9df;--serif:'Fraunces',serif;--sans:'Inter',sans-serif;}
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--ink);color:var(--bg);}
+  .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,241,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);}
+  .nav-inner{max-width:1100px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+  .wordmark{font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:-0.02em;font-variation-settings:"opsz" 144;}
+  .wordmark .dot{width:6px;height:6px;border-radius:50%;background:var(--ink);display:inline-block;transform:translateY(-3px);}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:8px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;border:none;}
+  .btn-primary{background:var(--ink);color:var(--bg);}
+  .btn-primary:hover{background:#2a2620;}
+  .footer{border-top:1px solid var(--rule);padding:36px 32px;text-align:center;font-size:13px;color:var(--muted);}
+  @media(max-width:720px){.nav-inner{padding:14px 22px;}.nav .btn{display:none;}}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 32px;}
+  .blog-hero{padding:80px 0 60px;border-bottom:1px solid var(--rule);}
+  .blog-hero h1{font-family:var(--serif);font-size:clamp(40px,6vw,72px);font-weight:700;margin:0 0 16px;letter-spacing:-0.026em;line-height:1.05;font-variation-settings:"opsz" 144;}
+  .blog-hero p{font-size:18px;color:var(--muted);max-width:480px;margin:0;}
+  .posts-grid{padding:56px 0 100px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;}
+  .post-card{display:flex;flex-direction:column;gap:8px;padding:28px;background:#fff;border:1px solid var(--rule);border-radius:14px;transition:all .2s;}
+  .post-card:hover{border-color:var(--ink);transform:translateY(-2px);box-shadow:0 8px 32px rgba(20,17,13,.07);}
+  .post-card h3{font-family:var(--serif);font-size:22px;font-weight:600;margin:0;line-height:1.3;letter-spacing:-0.015em;font-variation-settings:"opsz" 144;}
+  .post-kw{font-size:13px;color:var(--muted);margin:0;}
+  .post-funnel{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);}
+  .post-arrow{font-size:13px;font-weight:600;color:var(--accent);margin-top:auto;padding-top:8px;}
+  @media(max-width:720px){.wrap{padding:0 22px;}.blog-hero{padding:50px 0 36px;}.posts-grid{padding:36px 0 60px;grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="wordmark">Newsletter Engine<span class="dot"></span></a>
+    <a href="https://form.typeform.com/to/S6w11Pw6" target="_blank" rel="noopener" class="btn btn-primary">Book a free strategy session</a>
+  </div>
+</nav>
+<div class="blog-hero">
+  <div class="wrap">
+    <h1>The Blog</h1>
+    <p>Insights on newsletters, content strategy, and building an audience that converts.</p>
+  </div>
+</div>
+<div class="wrap">
+  <div class="posts-grid"><p style="color:var(--muted);padding:60px 0;text-align:center;grid-column:1/-1">Posts coming soon.</p></div>
+</div>
+<footer class="footer">
+  <a href="/" style="color:inherit">Newsletter Engine</a> · © 2026 All rights reserved
+</footer>
+</body>
+</html>

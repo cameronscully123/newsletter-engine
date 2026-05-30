@@ -167,15 +167,27 @@ const BASE_CSS = `
   .footer{border-top:1px solid var(--rule);padding:36px 32px;text-align:center;font-size:13px;color:var(--muted);}
   @media(max-width:720px){.nav-inner{padding:14px 22px;}.nav .btn{display:none;}}`;
 
-function postPage({ title, keyword, publishDate, funnelStage, content }) {
+function postPage({ title, keyword, publishDate, funnelStage, content, slug }) {
   const year = new Date().getFullYear();
+  const url = `${SITE_DOMAIN}/blog/${slug}/`;
+  const desc = keyword ? `Everything you need to know about ${keyword}. Practical insights from Newsletter Engine.` : title;
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>${title.replace(/"/g,'&quot;')} | Newsletter Engine</title>
-<meta name="description" content="${keyword ? `Everything you need to know about ${keyword}.` : title}"/>
+<meta name="description" content="${desc}"/>
+<link rel="canonical" href="${url}"/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="${url}"/>
+<meta property="og:title" content="${title.replace(/"/g,'&quot;')} | Newsletter Engine"/>
+<meta property="og:description" content="${desc}"/>
+<meta property="og:site_name" content="Newsletter Engine"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="${title.replace(/"/g,'&quot;')}"/>
+<meta name="twitter:description" content="${desc}"/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" href="/favicon.ico" sizes="any">
 ${FONTS}
 <style>
@@ -411,7 +423,7 @@ async function main() {
 
     const dir = join(process.cwd(), 'blog', slug);
     mkdirSync(dir, { recursive: true });
-    writeFileSync(join(dir, 'index.html'), postPage({ title, keyword, publishDate, funnelStage, content }), 'utf8');
+    writeFileSync(join(dir, 'index.html'), postPage({ title, keyword, publishDate, funnelStage, content, slug }), 'utf8');
     console.log(`   ✓ /blog/${slug}/index.html`);
 
     try {
@@ -427,6 +439,18 @@ async function main() {
   mkdirSync(join(process.cwd(), 'blog'), { recursive: true });
   writeFileSync(join(process.cwd(), 'blog', 'index.html'), blogIndexPage(postList), 'utf8');
   console.log(`\n✓ /blog/index.html (${postList.length} post${postList.length !== 1 ? 's' : ''})`);
+  // Generate sitemap.xml
+  const today = new Date().toISOString().split('T')[0];
+  const postUrls = postList.map(p => `  <url><loc>${SITE_DOMAIN}/blog/${p.slug}/</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>`).join('\n');
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>${SITE_DOMAIN}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>${SITE_DOMAIN}/blog/</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+${postUrls}
+</urlset>`;
+  writeFileSync(join(process.cwd(), 'sitemap.xml'), sitemap, 'utf8');
+  console.log('✓ sitemap.xml updated');
+
   console.log('\n✅ Done!');
 }
 

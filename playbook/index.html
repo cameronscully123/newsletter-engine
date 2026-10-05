@@ -27,10 +27,9 @@
     --mark:#FFD84D;
     --mark-deep:#F2C200;
     --ok:#1F7A55;
-    --dark:#0e0c0a;
     --radius-lg:18px;
     --radius-sm:8px;
-    --wrap:680px;
+    --wrap:1120px;
     --serif:"Newsreader", Georgia, serif;
     --sans:"Public Sans", system-ui, -apple-system, Segoe UI, sans-serif;
   }
@@ -40,11 +39,16 @@
   a{color:inherit}
   .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
   h1,h2,h3{font-family:var(--serif);font-weight:500;letter-spacing:-0.01em;margin:0}
-  h1{font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.05}
-  h2{font-size:clamp(1.5rem,3vw,2rem);line-height:1.15}
-  h3{font-size:1.2rem;line-height:1.25}
+  h1{font-size:clamp(2.2rem,4.5vw,3.4rem);line-height:1.05}
+  h2{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.12}
+  h3{font-size:1.15rem;line-height:1.25}
   p{margin:0}
   :focus-visible{outline:3px solid var(--mark-deep);outline-offset:3px;border-radius:4px}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:700;font-size:1rem;text-decoration:none;border-radius:10px;padding:14px 24px;border:1.5px solid var(--ink);cursor:pointer;white-space:nowrap;transition:background .15s ease}
+  .btn-primary{background:var(--mark);color:var(--ink)}
+  .btn-primary:hover{background:var(--mark-deep)}
 
   /* Nav */
   .nav{padding:20px 0;border-bottom:1px solid var(--line)}
@@ -55,67 +59,68 @@
   .nav-back:hover{color:var(--ink)}
 
   /* Hero */
-  .hero{padding:64px 0 48px;text-align:center}
+  .hero{padding:72px 0 64px}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
   .badge{display:inline-block;font-size:.85rem;font-weight:600;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:5px 14px;margin-bottom:20px;background:var(--mist)}
-  .hero h1{margin-bottom:18px}
-  .hero .sub{font-size:1.18rem;color:var(--ink-soft);max-width:30em;margin:0 auto 10px}
-  .hero .meta{font-size:.9rem;color:var(--slate);margin-top:6px}
+  .hero h1{margin-bottom:16px}
+  .hero .sub{font-size:1.15rem;color:var(--ink-soft);margin-bottom:8px}
+  .hero .meta{font-size:.9rem;color:var(--slate);margin-bottom:32px}
 
-  /* Mock cover */
-  .cover-wrap{margin:36px auto 0;max-width:340px}
-  .cover{background:var(--ink);border-radius:var(--radius-lg);padding:36px 32px 32px;border:1.5px solid var(--ink);box-shadow:8px 8px 0 var(--mark);text-align:left;color:#fff}
-  .cover-logo{display:flex;align-items:center;gap:8px;margin-bottom:36px}
-  .cover-logo-mark{width:24px;height:18px;background:var(--mark) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 22'%3E%3Cpath d='M3 4l12 9 12-9' fill='none' stroke='%2314213D' stroke-width='2.2' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat;border:1.5px solid var(--mark);border-radius:3px}
-  .cover-logo span{font-family:var(--serif);font-size:1rem;color:var(--mark);font-weight:500}
-  .cover h2{font-size:1.9rem;color:#fff;line-height:1.1;margin-bottom:12px}
-  .cover .cover-sub{font-size:1rem;color:#C9D1E0;margin-bottom:28px}
+  /* Form */
+  .form-stack{display:flex;flex-direction:column;gap:10px}
+  .form-stack input{font:inherit;font-size:1rem;padding:15px 16px;border:1.5px solid var(--ink);border-radius:10px;background:var(--paper);color:var(--ink);width:100%}
+  .form-stack input::placeholder{color:var(--slate)}
+  .form-stack input:focus{outline:3px solid var(--mark-deep);outline-offset:0}
+  .form-stack .btn{width:100%;font-size:1.05rem;padding:15px 24px}
+  .fine{font-size:.85rem;color:var(--slate);margin-top:8px}
+
+  /* Cover mockup */
+  .cover{background:var(--ink);border-radius:var(--radius-lg);padding:36px 32px 32px;border:1.5px solid var(--ink);box-shadow:10px 10px 0 var(--mark);color:#fff}
+  .cover-logo{display:flex;align-items:center;gap:8px;margin-bottom:32px}
+  .cover-logo-mark{width:22px;height:16px;background:var(--mark) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 22'%3E%3Cpath d='M3 4l12 9 12-9' fill='none' stroke='%2314213D' stroke-width='2.2' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat;border:1.5px solid var(--mark);border-radius:3px}
+  .cover-logo span{font-family:var(--serif);font-size:.95rem;color:var(--mark);font-weight:500}
+  .cover h2{font-size:1.8rem;color:#fff;line-height:1.1;margin-bottom:10px}
+  .cover .cover-sub{font-size:.98rem;color:#C9D1E0;margin-bottom:24px}
   .cover .cover-sub span{color:var(--mark)}
-  .cover-badge{display:inline-block;font-size:.8rem;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 12px;color:#C9D1E0}
-  .cover-seq{margin-top:28px;display:flex;flex-direction:column;gap:8px}
-  .seq-bubble{border-radius:10px;padding:10px 14px;font-size:.85rem}
-  .seq-bubble.dark{background:rgba(255,255,255,.08);color:#C9D1E0}
-  .seq-bubble.light{background:rgba(255,255,255,.15);color:#fff}
-  .seq-bubble.yellow{background:var(--mark);color:var(--ink)}
-  .seq-label{font-size:.72rem;color:rgba(255,255,255,.4);margin-bottom:3px}
-  .seq-label.yl{color:rgba(20,33,61,.5)}
+  .cover-badge{display:inline-block;font-size:.78rem;border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:4px 12px;color:#C9D1E0;margin-bottom:24px}
+  .cover-seq{display:flex;flex-direction:column;gap:8px}
+  .seq-bubble{border-radius:10px;padding:10px 14px;font-size:.88rem}
+  .seq-bubble.b1{background:rgba(255,255,255,.08);color:#C9D1E0}
+  .seq-bubble.b2{background:rgba(255,255,255,.15);color:#fff}
+  .seq-bubble.b3{background:var(--mark);color:var(--ink)}
+  .seq-label{font-size:.72rem;margin-bottom:3px;color:rgba(255,255,255,.4)}
+  .seq-label.yl{color:rgba(20,33,61,.45)}
+
+  /* Proof */
+  .proof{padding:40px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--mist)}
+  .proof-inner{display:flex;gap:48px;flex-wrap:wrap;justify-content:center;text-align:center}
+  .proof-stat strong{display:block;font-family:var(--serif);font-size:1.8rem;font-weight:500}
+  .proof-stat span{font-size:.88rem;color:var(--slate)}
 
   /* What's inside */
-  .inside{padding:56px 0}
-  .inside h2{margin-bottom:32px;text-align:center}
-  .items{display:flex;flex-direction:column;gap:12px}
-  .item{display:flex;gap:16px;align-items:flex-start;border:1px solid var(--line);border-radius:var(--radius-sm);padding:18px 20px;background:var(--paper)}
-  .item-num{width:32px;height:32px;border-radius:50%;background:var(--mark);border:1.5px solid var(--ink);display:grid;place-items:center;font-family:var(--serif);font-size:1rem;font-weight:500;flex:none;margin-top:1px}
-  .item h3{margin-bottom:4px;font-size:1.05rem}
+  .inside{padding:72px 0}
+  .inside-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+  .inside h2{margin-bottom:32px}
+  .items{display:flex;flex-direction:column;gap:10px}
+  .item{display:flex;gap:16px;align-items:flex-start;border:1px solid var(--line);border-radius:var(--radius-sm);padding:18px 20px}
+  .item-num{width:30px;height:30px;border-radius:50%;background:var(--mark);border:1.5px solid var(--ink);display:grid;place-items:center;font-family:var(--serif);font-size:.95rem;font-weight:500;flex:none;margin-top:2px}
+  .item h3{margin-bottom:4px}
   .item p{font-size:.92rem;color:var(--ink-soft)}
-  .bonus{border:1.5px solid var(--ink);background:var(--mist);border-radius:var(--radius-sm);padding:16px 20px;display:flex;gap:14px;align-items:flex-start;margin-top:6px}
-  .bonus-tag{font-size:.75rem;font-weight:700;background:var(--mark);border-radius:4px;padding:2px 8px;white-space:nowrap;margin-top:3px}
+  .bonus{border:1.5px solid var(--ink);background:var(--mist);border-radius:var(--radius-sm);padding:16px 20px;display:flex;gap:14px;align-items:flex-start;margin-top:4px}
+  .bonus-tag{font-size:.75rem;font-weight:700;background:var(--mark);border:1px solid var(--ink);border-radius:4px;padding:2px 8px;white-space:nowrap;margin-top:3px}
   .bonus p{font-size:.92rem;color:var(--ink-soft)}
   .bonus strong{color:var(--ink)}
 
-  /* Form section */
-  .optin{padding:0 0 72px}
-  .optin-box{border:1.5px solid var(--ink);border-radius:var(--radius-lg);padding:40px;background:var(--paper);box-shadow:8px 8px 0 var(--ink)}
-  .optin-box h2{margin-bottom:10px}
-  .optin-box .sub{font-size:1rem;color:var(--ink-soft);margin-bottom:28px}
-  .form-row{display:flex;gap:10px;flex-wrap:wrap}
-  .form-row input{flex:1;min-width:200px;font:inherit;font-size:1rem;padding:14px 16px;border:1.5px solid var(--ink);border-radius:10px;background:var(--paper);color:var(--ink)}
-  .form-row input::placeholder{color:var(--slate)}
-  .form-row input:focus{outline:3px solid var(--mark-deep);outline-offset:0}
-  .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:700;font-size:1rem;text-decoration:none;border-radius:10px;padding:14px 24px;border:1.5px solid var(--ink);cursor:pointer;white-space:nowrap;transition:background .15s ease}
-  .btn-primary{background:var(--mark);color:var(--ink)}
-  .btn-primary:hover{background:var(--mark-deep)}
-  .fine{font-size:.85rem;color:var(--slate);margin-top:12px}
-
-  /* Social proof */
-  .proof{background:var(--mist);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:32px 0;margin-bottom:56px}
-  .proof-inner{display:flex;gap:32px;flex-wrap:wrap;justify-content:center;text-align:center}
-  .proof-stat strong{display:block;font-family:var(--serif);font-size:1.6rem;font-weight:500}
-  .proof-stat span{font-size:.88rem;color:var(--slate)}
+  /* Sticky form sidebar */
+  .form-sidebar{position:sticky;top:32px}
+  .form-card{border:1.5px solid var(--ink);border-radius:var(--radius-lg);padding:32px;box-shadow:8px 8px 0 var(--ink)}
+  .form-card h3{font-size:1.4rem;margin-bottom:8px}
+  .form-card .sub{font-size:.95rem;color:var(--ink-soft);margin-bottom:22px}
 
   /* Quote */
-  .quote-wrap{padding:0 0 56px}
-  .bq{border-left:3px solid var(--mark);padding-left:20px;margin:0}
-  .bq p{font-family:var(--serif);font-size:1.15rem;color:var(--ink);line-height:1.5}
+  .quote-section{padding:0 0 56px}
+  .bq{border-left:3px solid var(--mark);padding-left:20px;margin:0;max-width:620px}
+  .bq p{font-family:var(--serif);font-size:1.1rem;line-height:1.5}
   .bq cite{display:block;font-style:normal;font-size:.9rem;color:var(--slate);margin-top:10px}
   .bq cite b{color:var(--ink)}
 
@@ -124,11 +129,14 @@
   footer a{color:var(--slate);text-decoration:none}
   footer a:hover{color:var(--ink)}
 
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr}
+    .hero{padding:48px 0 40px}
+    .inside-grid{grid-template-columns:1fr}
+    .form-sidebar{position:static}
+  }
   @media(max-width:520px){
-    .optin-box{padding:28px 22px}
-    .form-row{flex-direction:column}
-    .form-row input,.btn{width:100%}
-    .hero{padding:44px 0 36px}
+    .cover{padding:28px 22px 24px}
   }
 </style>
 </head>
@@ -136,10 +144,7 @@
 
 <header class="nav">
   <div class="wrap">
-    <a class="logo" href="/">
-      <span class="logo-mark" aria-hidden="true"></span>
-      Newsletter Engine
-    </a>
+    <a class="logo" href="/"><span class="logo-mark" aria-hidden="true"></span>Newsletter Engine</a>
     <a class="nav-back" href="/">← Back to site</a>
   </div>
 </header>
@@ -149,31 +154,42 @@
 <!-- HERO -->
 <section class="hero">
   <div class="wrap">
-    <span class="badge">Free for coaches &amp; consultants with a $3,000+ offer</span>
-    <h1>The Booked-Call Newsletter Playbook</h1>
-    <p class="sub">5 copy-and-paste emails that turn your list into sales calls.</p>
-    <p class="meta">A 15-minute read, with a 2-minute scorecard.</p>
+    <div class="hero-grid">
 
-    <div class="cover-wrap">
-      <div class="cover">
+      <!-- Left: headline + form -->
+      <div>
+        <span class="badge">Free for coaches &amp; consultants with a $3,000+ offer</span>
+        <h1>The Booked-Call Newsletter Playbook</h1>
+        <p class="sub">5 copy-and-paste emails that turn your list into sales calls.</p>
+        <p class="meta">A 15-minute read, with a 2-minute scorecard.</p>
+        <form action="#" method="post" class="form-stack">
+          <input id="email-hero" name="email" type="email" autocomplete="email" placeholder="you@yourcoaching.com" required>
+          <button class="btn btn-primary" type="submit">Send me the free Playbook</button>
+          <p class="fine">One email with the Playbook, then our weekly newsletter. Unsubscribe anytime.</p>
+        </form>
+      </div>
+
+      <!-- Right: cover mockup -->
+      <div class="cover" aria-hidden="true">
         <div class="cover-logo">
-          <span class="cover-logo-mark" aria-hidden="true"></span>
+          <span class="cover-logo-mark"></span>
           <span>Newsletter Engine</span>
         </div>
         <h2>The Booked-Call Newsletter</h2>
         <p class="cover-sub">5 copy-and-paste emails that turn your list into <span>sales calls.</span></p>
         <span class="cover-badge">For coaches and consultants with a $3,000+ offer</span>
         <div class="cover-seq">
-          <div class="seq-bubble dark"><div class="seq-label">Monday: you record</div>A 5-minute Loom about a client win</div>
-          <div class="seq-bubble light"><div class="seq-label">Thursday: it lands in their inbox</div>Why your best clients are the ones you almost turned away</div>
-          <div class="seq-bubble yellow"><div class="seq-label yl">9:14 AM: a reply</div>"Do you have time for a call next week?"</div>
+          <div class="seq-bubble b1"><div class="seq-label">Monday: you record</div>A 5-minute Loom about a client win</div>
+          <div class="seq-bubble b2"><div class="seq-label">Thursday: it lands in their inbox</div>Why your best clients are the ones you almost turned away</div>
+          <div class="seq-bubble b3"><div class="seq-label yl">9:14 AM: a reply</div>"Do you have time for a call next week?"</div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- PROOF STRIP -->
+<!-- PROOF -->
 <div class="proof">
   <div class="wrap">
     <div class="proof-inner">
@@ -184,78 +200,75 @@
   </div>
 </div>
 
-<!-- WHAT'S INSIDE -->
+<!-- WHAT'S INSIDE + STICKY FORM -->
 <section class="inside">
   <div class="wrap">
-    <h2>What's inside</h2>
-    <div class="items">
-      <div class="item">
-        <div class="item-num">1</div>
-        <div>
-          <h3>Who goes on the list</h3>
-          <p>The five sources you already have — past leads, quiet prospects, old clients, event sign-ups, social audience — and the exact permission email to send them.</p>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-num">2</div>
-        <div>
-          <h3>Anatomy of a booked-call issue</h3>
-          <p>The five-part structure every issue needs. Most coaches skip part four — that's why their readers learn from them and then hire someone else.</p>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-num">3</div>
-        <div>
-          <h3>The welcome email that books calls</h3>
-          <p>A ready-to-copy template. Welcome emails average an 84% open rate — this one uses it to start a conversation and invite a call.</p>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-num">4</div>
-        <div>
-          <h3>Five issue templates you can steal</h3>
-          <p>The client story, the mistake I keep seeing, the framework, the opinion, and the direct invitation. Rotate these and you'll never stare at a blank page again.</p>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-num">5</div>
-        <div>
-          <h3>The 5-minute Loom method</h3>
-          <p>How to record one idea out loud and turn it into a weekly issue in about 25 minutes total. Sounds like you, because it is you.</p>
-        </div>
-      </div>
-      <div class="bonus">
-        <span class="bonus-tag">Bonus</span>
-        <p><strong>Your first 30-day plan.</strong> A day-by-day checklist for week one, then one issue a week. By day 30 you'll have sent four emails and know which ones get replies.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <div class="inside-grid">
 
-<!-- QUOTE -->
-<section class="quote-wrap">
-  <div class="wrap">
-    <blockquote class="bq">
-      <p>"The newsletter has become a real driver for our coaching pipeline. Leads come in warm and already bought in. What surprised me most was how little effort it takes to keep running."</p>
-      <cite><b>Paul</b> — Co-Founder, Highspire</cite>
-    </blockquote>
-  </div>
-</section>
-
-<!-- OPT-IN FORM -->
-<section class="optin">
-  <div class="wrap">
-    <div class="optin-box">
-      <h2>Get the free Playbook</h2>
-      <p class="sub">Enter your email and we'll send it straight to your inbox.</p>
-      <!-- TODO: replace action with Beehiiv embed or API endpoint -->
-      <form action="#" method="post">
-        <div class="form-row">
-          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@yourcoaching.com" required>
-          <button class="btn btn-primary" type="submit">Send me the Playbook</button>
+      <!-- Left: contents -->
+      <div>
+        <h2>What's inside</h2>
+        <div class="items">
+          <div class="item">
+            <div class="item-num">1</div>
+            <div>
+              <h3>Who goes on the list</h3>
+              <p>The five sources you already have — past leads, quiet prospects, old clients, event sign-ups, social audience — and the exact permission email to send them.</p>
+            </div>
+          </div>
+          <div class="item">
+            <div class="item-num">2</div>
+            <div>
+              <h3>Anatomy of a booked-call issue</h3>
+              <p>The five-part structure every issue needs. Most coaches skip part four — that's why their readers learn from them and then hire someone else.</p>
+            </div>
+          </div>
+          <div class="item">
+            <div class="item-num">3</div>
+            <div>
+              <h3>The welcome email that books calls</h3>
+              <p>A ready-to-copy template. Welcome emails average an 84% open rate — this one uses it to start a conversation and invite a call.</p>
+            </div>
+          </div>
+          <div class="item">
+            <div class="item-num">4</div>
+            <div>
+              <h3>Five issue templates you can steal</h3>
+              <p>The client story, the mistake I keep seeing, the framework, the opinion, and the direct invitation. Rotate these and you'll never stare at a blank page again.</p>
+            </div>
+          </div>
+          <div class="item">
+            <div class="item-num">5</div>
+            <div>
+              <h3>The 5-minute Loom method</h3>
+              <p>Record one idea out loud and turn it into a weekly issue in about 25 minutes total. Sounds like you, because it is you.</p>
+            </div>
+          </div>
+          <div class="bonus">
+            <span class="bonus-tag">Bonus</span>
+            <p><strong>Your first 30-day plan.</strong> A day-by-day checklist for week one, then one issue a week. By day 30 you'll have sent four emails and know which ones get replies.</p>
+          </div>
         </div>
-        <p class="fine">One email with the Playbook, then our weekly newsletter on growing a list that books calls. Unsubscribe anytime.</p>
-      </form>
+      </div>
+
+      <!-- Right: sticky form + quote -->
+      <div class="form-sidebar">
+        <div class="form-card">
+          <h3>Get the free Playbook</h3>
+          <p class="sub">Enter your email and we'll send it straight to your inbox.</p>
+          <form action="#" method="post" class="form-stack">
+            <input name="email" type="email" autocomplete="email" placeholder="you@yourcoaching.com" required>
+            <button class="btn btn-primary" type="submit">Send me the Playbook</button>
+            <p class="fine">One email with the Playbook, then our weekly newsletter. Unsubscribe anytime.</p>
+          </form>
+        </div>
+
+        <blockquote class="bq" style="margin-top:32px">
+          <p>"The newsletter has become a real driver for our coaching pipeline. Leads come in warm and already bought in."</p>
+          <cite><b>Paul</b> — Co-Founder, Highspire</cite>
+        </blockquote>
+      </div>
+
     </div>
   </div>
 </section>

@@ -351,38 +351,73 @@
 
 <script>
 (function(){
-  function drawLines(svgId, sourceCount, flip){
+  var leftColors  = ['#4A90D9','#E05252','#F2A93B','#7B68C8','#3BAF7B'];
+  var rightColors = ['#4A90D9','#F2A93B','#3BAF7B'];
+  var delays = [0, 0.6, 1.2, 1.8, 2.4];
+
+  function drawLines(svgId, colors, flip){
     var svg = document.getElementById(svgId);
     if(!svg) return;
     var h = svg.parentElement.offsetHeight || 260;
     svg.setAttribute('viewBox','0 0 100 '+h);
-    var cx = flip ? 0 : 100, cy = h/2;
-    var colors = ['#4A90D9','#E05252','#F2A93B','#7B68C8','#3BAF7B'];
-    for(var i=0;i<sourceCount;i++){
-      var sy = (h/(sourceCount+1))*(i+1);
-      var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    var cy = h/2;
+    var n = colors.length;
+
+    for(var i=0;i<n;i++){
+      var sy = (h/(n+1))*(i+1);
       var d = flip
         ? 'M100,'+sy+' C50,'+sy+' 50,'+cy+' 0,'+cy
         : 'M0,'+sy+' C50,'+sy+' 50,'+cy+' 100,'+cy;
-      path.setAttribute('d',d);
-      path.setAttribute('stroke', colors[i]);
-      path.setAttribute('stroke-width','1.5');
-      path.setAttribute('fill','none');
-      path.setAttribute('opacity','0.45');
-      svg.appendChild(path);
+
+      // Faint static track
+      var track = document.createElementNS('http://www.w3.org/2000/svg','path');
+      track.setAttribute('d',d);
+      track.setAttribute('stroke', colors[i]);
+      track.setAttribute('stroke-width','1.5');
+      track.setAttribute('fill','none');
+      track.setAttribute('opacity','0.2');
+      svg.appendChild(track);
+
+      // Hidden path for animateMotion to follow
+      var motionPath = document.createElementNS('http://www.w3.org/2000/svg','path');
+      motionPath.setAttribute('d',d);
+      motionPath.setAttribute('fill','none');
+      motionPath.setAttribute('stroke','none');
+      motionPath.setAttribute('id', svgId+'_p'+i);
+      svg.appendChild(motionPath);
+
+      // Travelling dot
+      var circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      circle.setAttribute('r','4');
+      circle.setAttribute('fill', colors[i]);
+      circle.setAttribute('opacity','0.9');
+
+      var anim = document.createElementNS('http://www.w3.org/2000/svg','animateMotion');
+      anim.setAttribute('dur','2.4s');
+      anim.setAttribute('repeatCount','indefinite');
+      anim.setAttribute('begin', delays[i % delays.length]+'s');
+      anim.setAttribute('calcMode','spline');
+      anim.setAttribute('keyTimes','0;1');
+      anim.setAttribute('keySplines','0.4 0 0.6 1');
+
+      var mpath = document.createElementNS('http://www.w3.org/2000/svg','mpath');
+      mpath.setAttributeNS('http://www.w3.org/1999/xlink','href','#'+svgId+'_p'+i);
+      anim.appendChild(mpath);
+      circle.appendChild(anim);
+      svg.appendChild(circle);
     }
   }
+
   function init(){
-    drawLines('hub-svg', 5, false);
-    drawLines('hub-svg-r', 3, true);
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
-  else init();
-  window.addEventListener('resize', function(){
     document.getElementById('hub-svg').innerHTML='';
     document.getElementById('hub-svg-r').innerHTML='';
-    init();
-  });
+    drawLines('hub-svg', leftColors, false);
+    drawLines('hub-svg-r', rightColors, true);
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+  else init();
+  window.addEventListener('resize', init);
 })();
 </script>
 

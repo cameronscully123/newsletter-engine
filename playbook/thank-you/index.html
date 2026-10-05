@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Playbook Is On Its Way | Newsletter Engine</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14213D;
+    --ink-soft:#2B3A5C;
+    --slate:#5B6475;
+    --line:#DCE1E9;
+    --paper:#FFFFFF;
+    --mist:#F3F5F8;
+    --mark:#FFD84D;
+    --mark-deep:#F2C200;
+    --ok:#1F7A55;
+    --radius-lg:18px;
+    --serif:"Newsreader", Georgia, serif;
+    --sans:"Public Sans", system-ui, -apple-system, Segoe UI, sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+  a{color:inherit}
+  h1,h2,h3{font-family:var(--serif);font-weight:500;letter-spacing:-0.01em;margin:0}
+  p{margin:0}
+
+  /* Nav */
+  .nav{padding:20px 24px;border-bottom:1px solid var(--line)}
+  .logo{font-family:var(--serif);font-size:1.2rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:10px;color:var(--ink)}
+  .logo-mark{width:28px;height:20px;background:var(--mark) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 22'%3E%3Cpath d='M3 4l12 9 12-9' fill='none' stroke='%2314213D' stroke-width='2.2' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat;border:2px solid var(--ink);border-radius:4px;flex:none}
+
+  /* Main */
+  main{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 24px}
+  .card{max-width:860px;width:100%;text-align:center}
+
+  /* Check icon */
+  .check{width:64px;height:64px;border-radius:50%;background:var(--ok);display:grid;place-items:center;margin:0 auto 28px}
+  .check svg{width:30px;height:30px}
+
+  .card h1{font-size:clamp(1.9rem,4vw,2.6rem);margin-bottom:14px}
+  .card .sub{font-size:1.1rem;color:var(--ink-soft);max-width:36em;margin:0 auto 32px}
+
+  /* Email hint */
+  .email-hint{background:var(--mist);border:1px solid var(--line);border-radius:12px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start;text-align:left;margin-bottom:36px}
+  .email-hint .icon{font-size:1.4rem;flex:none;margin-top:2px}
+  .email-hint p{font-size:.95rem;color:var(--ink-soft)}
+  .email-hint strong{color:var(--ink)}
+
+  /* Divider */
+  .divider{display:flex;align-items:center;gap:14px;margin-bottom:28px;color:var(--slate);font-size:.9rem}
+  .divider:before,.divider:after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* CTA */
+  .cta-block h2{font-size:1.4rem;margin-bottom:10px}
+  .cta-block p{font-size:.97rem;color:var(--ink-soft);max-width:32em;margin:0 auto 22px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:700;font-size:1rem;text-decoration:none;border-radius:10px;padding:14px 28px;border:1.5px solid var(--ink);transition:background .15s ease}
+  .btn-primary{background:var(--mark);color:var(--ink)}
+  .btn-primary:hover{background:var(--mark-deep)}
+  .fine{font-size:.85rem;color:var(--slate);margin-top:12px}
+
+  .cal-wrap{margin-top:24px;border:1.5px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;min-height:600px}
+  .cal-wrap > div{min-height:600px}
+  footer{padding:24px;font-size:.85rem;color:var(--slate);border-top:1px solid var(--line);text-align:center}
+  footer a{color:var(--slate);text-decoration:none}
+  footer a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="logo" href="#"><span class="logo-mark" aria-hidden="true"></span>Newsletter Engine</a>
+</header>
+
+<main>
+  <div class="card">
+
+    <div class="check" aria-hidden="true">
+      <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 15.5l6 6L24 9" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h1>Your Playbook is on its way.</h1>
+    <p class="sub">Check your inbox — it should land within the next 5 minutes.</p>
+
+    <div class="email-hint">
+      <span class="icon">📬</span>
+      <p><strong>Can't find it?</strong> Check your spam or promotions folder and mark us as a contact so future emails land in your inbox.</p>
+    </div>
+
+    <div class="divider">Ready to book a strategy call?</div>
+
+    <div class="cta-block">
+      <h2>Pick a time that works for you.</h2>
+      <p>20 minutes. We'll map out exactly what your newsletter should look like — whether you work with us or not.</p>
+    </div>
+
+    <div class="cal-wrap">
+      <!-- Cal inline embed code begins -->
+      <div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-newsletter-engine-discovery-session"></div>
+      <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "newsletter-engine-discovery-session", {origin:"https://app.cal.com"});
+        Cal.config = Cal.config || {};
+        Cal.config.forwardQueryParams = true;
+        Cal.ns["newsletter-engine-discovery-session"]("inline", {
+          elementOrSelector:"#my-cal-inline-newsletter-engine-discovery-session",
+          config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"},
+          calLink: "newsletter-engine-discovery/newsletter-engine-discovery-session",
+        });
+        Cal.ns["newsletter-engine-discovery-session"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+      </script>
+      <!-- Cal inline embed code ends -->
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <a href="mailto:hello@newsletterengine.io">hello@newsletterengine.io</a> &nbsp;·&nbsp; &copy; 2026 Newsletter Engine
+</footer>
+
+</body>
+</html>

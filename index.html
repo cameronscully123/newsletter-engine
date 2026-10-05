@@ -353,69 +353,64 @@
 (function(){
   var leftColors  = ['#4A90D9','#E05252','#F2A93B','#7B68C8','#3BAF7B'];
   var rightColors = ['#4A90D9','#F2A93B','#3BAF7B'];
-  var delays = [0, 0.6, 1.2, 1.8, 2.4];
 
   function drawLines(svgId, colors, flip){
     var svg = document.getElementById(svgId);
     if(!svg) return;
     var h = svg.parentElement.offsetHeight || 260;
     svg.setAttribute('viewBox','0 0 100 '+h);
-    var cy = h/2;
+    var cy = h / 2;
     var n = colors.length;
 
-    for(var i=0;i<n;i++){
-      var sy = (h/(n+1))*(i+1);
+    for(var i = 0; i < n; i++){
+      var sy = (h / (n + 1)) * (i + 1);
       var d = flip
         ? 'M100,'+sy+' C50,'+sy+' 50,'+cy+' 0,'+cy
         : 'M0,'+sy+' C50,'+sy+' 50,'+cy+' 100,'+cy;
 
       // Faint static track
       var track = document.createElementNS('http://www.w3.org/2000/svg','path');
-      track.setAttribute('d',d);
+      track.setAttribute('d', d);
       track.setAttribute('stroke', colors[i]);
-      track.setAttribute('stroke-width','1.5');
-      track.setAttribute('fill','none');
-      track.setAttribute('opacity','0.2');
+      track.setAttribute('stroke-width', '1.5');
+      track.setAttribute('fill', 'none');
+      track.setAttribute('opacity', '0.18');
       svg.appendChild(track);
 
-      // Hidden path for animateMotion to follow
-      var motionPath = document.createElementNS('http://www.w3.org/2000/svg','path');
-      motionPath.setAttribute('d',d);
-      motionPath.setAttribute('fill','none');
-      motionPath.setAttribute('stroke','none');
-      motionPath.setAttribute('id', svgId+'_p'+i);
-      svg.appendChild(motionPath);
+      // Animated dot-on-path using stroke-dashoffset
+      var dot = document.createElementNS('http://www.w3.org/2000/svg','path');
+      dot.setAttribute('d', d);
+      dot.setAttribute('fill', 'none');
+      dot.setAttribute('stroke', colors[i]);
+      dot.setAttribute('stroke-width', '3');
+      dot.setAttribute('stroke-linecap', 'round');
+      dot.setAttribute('opacity', '0.9');
+      svg.appendChild(dot);
 
-      // Travelling dot
-      var circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
-      circle.setAttribute('r','4');
-      circle.setAttribute('fill', colors[i]);
-      circle.setAttribute('opacity','0.9');
-
-      var anim = document.createElementNS('http://www.w3.org/2000/svg','animateMotion');
-      anim.setAttribute('dur','2.4s');
-      anim.setAttribute('repeatCount','indefinite');
-      anim.setAttribute('begin', delays[i % delays.length]+'s');
-      anim.setAttribute('calcMode','spline');
-      anim.setAttribute('keyTimes','0;1');
-      anim.setAttribute('keySplines','0.4 0 0.6 1');
-
-      var mpath = document.createElementNS('http://www.w3.org/2000/svg','mpath');
-      mpath.setAttributeNS('http://www.w3.org/1999/xlink','href','#'+svgId+'_p'+i);
-      anim.appendChild(mpath);
-      circle.appendChild(anim);
-      svg.appendChild(circle);
+      // After appending, get total length and set dash
+      (function(el, delay){
+        requestAnimationFrame(function(){
+          var len = el.getTotalLength();
+          var dotSize = 7;
+          el.setAttribute('stroke-dasharray', dotSize + ' ' + (len + dotSize));
+          el.setAttribute('stroke-dashoffset', dotSize);
+          el.animate(
+            [{ strokeDashoffset: dotSize }, { strokeDashoffset: -(len + dotSize) }],
+            { duration: 2000, delay: delay, iterations: Infinity, easing: 'cubic-bezier(0.4,0,0.6,1)' }
+          );
+        });
+      })(dot, i * 400);
     }
   }
 
   function init(){
-    document.getElementById('hub-svg').innerHTML='';
-    document.getElementById('hub-svg-r').innerHTML='';
+    document.getElementById('hub-svg').innerHTML = '';
+    document.getElementById('hub-svg-r').innerHTML = '';
     drawLines('hub-svg', leftColors, false);
     drawLines('hub-svg-r', rightColors, true);
   }
 
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
   window.addEventListener('resize', init);
 })();

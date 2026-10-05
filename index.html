@@ -124,17 +124,29 @@
   .built b{color:var(--ink);font-weight:600}
   @media (max-width:560px){.stats{grid-template-columns:1fr}}
 
-  /* Leak / pipeline */
-  .pipe{display:grid;grid-template-columns:1fr auto 1fr;gap:28px;align-items:center}
-  .sources{display:grid;gap:10px}
-  .source{border:1px solid var(--line);background:var(--paper);border-radius:var(--radius-sm);padding:12px 16px;font-size:.95rem;display:flex;justify-content:space-between;gap:12px}
-  .source em{font-style:normal;color:var(--slate);font-size:.85rem}
-  .pipe-arrow{font-family:var(--serif);font-size:2.4rem;color:var(--slate)}
-  .hub{border:1.5px solid var(--ink);border-radius:var(--radius-lg);padding:26px;background:var(--paper);box-shadow:6px 6px 0 var(--ink)}
-  .hub h3{margin-bottom:12px}
-  .hub ul{margin:0;padding-left:20px}
-  .hub li{margin-bottom:6px}
-  @media (max-width:860px){.pipe{grid-template-columns:1fr}.pipe-arrow{transform:rotate(90deg);justify-self:center}}
+  /* Hub diagram */
+  .hub-diagram{display:grid;grid-template-columns:1fr 80px auto 80px 1fr;gap:0;align-items:center;margin-top:8px}
+  .hub-sources{display:flex;flex-direction:column;gap:10px}
+  .hub-source{display:flex;align-items:center;gap:12px;font-size:.95rem}
+  .hub-source .dot{width:12px;height:12px;border-radius:50%;flex:none}
+  .hub-source .label{flex:1}
+  .hub-source .label em{display:block;font-style:normal;font-size:.8rem;color:var(--slate)}
+  .hub-lines{position:relative;width:100px;align-self:stretch;display:flex;align-items:center;justify-content:center}
+  .hub-lines svg{width:100%;height:100%;overflow:visible}
+  .hub-center{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .hub-node{width:72px;height:72px;border-radius:50%;background:var(--ink);display:grid;place-items:center;box-shadow:4px 4px 0 var(--mark)}
+  .hub-node svg{width:30px;height:30px}
+  .hub-label{font-size:.78rem;font-weight:700;color:var(--ink);letter-spacing:.04em;text-transform:uppercase;text-align:center;line-height:1.3}
+  .hub-outputs{display:flex;flex-direction:column;gap:10px}
+  .hub-output{border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 16px;font-size:.92rem;background:var(--paper)}
+  .hub-output strong{display:block;margin-bottom:2px}
+  .hub-output span{font-size:.82rem;color:var(--slate)}
+  @media(max-width:860px){
+    .hub-diagram{grid-template-columns:1fr;gap:24px}
+    .hub-lines{display:none}
+    .hub-center{flex-direction:row;justify-content:flex-start;gap:12px}
+    .hub-diagram > div:nth-child(2),.hub-diagram > div:nth-child(4){display:none}
+  }
 
   /* Steps */
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;counter-reset:s;padding:0;margin:0;list-style:none}
@@ -292,27 +304,87 @@
       <h2>Most of your future clients already know you. They just haven't heard from you lately.</h2>
       <p class="lede">The lead who said "not yet." The discovery call that didn't close. The podcast listener, the LinkedIn follower, the past client who'd refer you if you crossed their mind. We bring all of them into one list and stay in front of them every week.</p>
     </div>
-    <div class="pipe">
-      <div class="sources">
-        <div class="source">Past leads and "not yet" prospects <em>from your CRM</em></div>
-        <div class="source">Discovery calls that didn't close <em>and no-shows</em></div>
-        <div class="source">Past and current clients <em>for referrals</em></div>
-        <div class="source">LinkedIn, podcast and YouTube audience <em>new subscribers</em></div>
-        <div class="source">Lead magnet and webinar sign-ups <em>new subscribers</em></div>
+    <div class="hub-diagram" id="hub-diagram">
+
+      <!-- Sources -->
+      <div class="hub-sources">
+        <div class="hub-source"><span class="dot" style="background:#4A90D9"></span><span class="label">LinkedIn audience<em>new subscribers</em></span></div>
+        <div class="hub-source"><span class="dot" style="background:#E05252"></span><span class="label">YouTube &amp; podcast<em>new subscribers</em></span></div>
+        <div class="hub-source"><span class="dot" style="background:#F2A93B"></span><span class="label">Past leads &amp; "not yet" prospects<em>from your CRM</em></span></div>
+        <div class="hub-source"><span class="dot" style="background:#7B68C8"></span><span class="label">Discovery calls that didn't close<em>and no-shows</em></span></div>
+        <div class="hub-source"><span class="dot" style="background:#3BAF7B"></span><span class="label">Past clients<em>referrals &amp; repeat</em></span></div>
       </div>
-      <div class="pipe-arrow" aria-hidden="true">&#8594;</div>
-      <div class="hub">
-        <h3>One weekly newsletter, in your voice</h3>
-        <ul>
-          <li>Segmented, so past clients and cold leads get the right message</li>
-          <li>A welcome sequence that introduces you and invites a call</li>
-          <li>A clear call-booking CTA in every issue</li>
-          <li>Replies land in your inbox as real conversations</li>
-        </ul>
+
+      <!-- SVG connector lines -->
+      <div class="hub-lines" aria-hidden="true">
+        <svg id="hub-svg" viewBox="0 0 100 260" preserveAspectRatio="none"></svg>
       </div>
+
+      <!-- Center hub -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+        <div class="hub-center">
+          <div class="hub-node">
+            <svg viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="1" width="28" height="22" rx="4" stroke="white" stroke-width="1.8"/>
+              <path d="M1 7L15 16l14-9" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="hub-label">Your<br>Newsletter</div>
+        </div>
+      </div>
+
+      <!-- SVG connector lines right side -->
+      <div class="hub-lines" aria-hidden="true" style="transform:scaleX(-1)">
+        <svg id="hub-svg-r" viewBox="0 0 100 260" preserveAspectRatio="none"></svg>
+      </div>
+
+      <!-- Outputs -->
+      <div class="hub-outputs">
+        <div class="hub-output"><strong>Warms cold leads</strong><span>Stays top of mind between sales calls</span></div>
+        <div class="hub-output" style="border-color:var(--ink);box-shadow:4px 4px 0 var(--mark)"><strong>Books calls</strong><span>One CTA every issue, replies as conversations</span></div>
+        <div class="hub-output"><strong>Compounds over time</strong><span>Owned audience, no algorithm required</span></div>
+      </div>
+
     </div>
   </div>
 </section>
+
+<script>
+(function(){
+  function drawLines(svgId, sourceCount, flip){
+    var svg = document.getElementById(svgId);
+    if(!svg) return;
+    var h = svg.parentElement.offsetHeight || 260;
+    svg.setAttribute('viewBox','0 0 100 '+h);
+    var cx = flip ? 0 : 100, cy = h/2;
+    var colors = ['#4A90D9','#E05252','#F2A93B','#7B68C8','#3BAF7B'];
+    for(var i=0;i<sourceCount;i++){
+      var sy = (h/(sourceCount+1))*(i+1);
+      var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      var d = flip
+        ? 'M100,'+sy+' C50,'+sy+' 50,'+cy+' 0,'+cy
+        : 'M0,'+sy+' C50,'+sy+' 50,'+cy+' 100,'+cy;
+      path.setAttribute('d',d);
+      path.setAttribute('stroke', colors[i]);
+      path.setAttribute('stroke-width','1.5');
+      path.setAttribute('fill','none');
+      path.setAttribute('opacity','0.45');
+      svg.appendChild(path);
+    }
+  }
+  function init(){
+    drawLines('hub-svg', 5, false);
+    drawLines('hub-svg-r', 3, true);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+  else init();
+  window.addEventListener('resize', function(){
+    document.getElementById('hub-svg').innerHTML='';
+    document.getElementById('hub-svg-r').innerHTML='';
+    init();
+  });
+})();
+</script>
 
 <!-- HOW IT WORKS -->
 <section class="tint" id="how">

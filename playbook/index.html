@@ -293,5 +293,19 @@ src="https://www.facebook.com/tr?id=1255832093376080&ev=PageView&noscript=1"
   </div>
 </footer>
 
+<script>
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  var utms = ['utm_source','utm_medium','utm_campaign','utm_content'];
+  var query = utms.filter(function(k){ return params.get(k); })
+                  .map(function(k){ return k+'='+encodeURIComponent(params.get(k)); })
+                  .join('&');
+  if(!query) return;
+  document.querySelectorAll('a[href*="tally.so"]').forEach(function(a){
+    a.href = a.href + (a.href.indexOf('?') > -1 ? '&' : '?') + query;
+  });
+})();
+</script>
+
 </body>
 </html>

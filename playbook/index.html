@@ -189,9 +189,10 @@ src="https://www.facebook.com/tr?id=1255832093376080&ev=PageView&noscript=1"
         <h1>The Booked-Call Newsletter Playbook</h1>
         <p class="sub">5 copy-and-paste emails that turn your list into sales calls.</p>
         <p class="meta">A 15-minute read, with a 2-minute scorecard.</p>
-        <div class="beehiiv-embed-hero">
-          <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="2166e4c5-549e-4734-b1fb-08651082cef0"></script>
-        </div>
+        <form class="email-form" id="hero-form" onsubmit="submitEmail(event,this)">
+          <input type="email" name="email" placeholder="Enter your email" required>
+          <button type="submit" class="btn btn-primary btn-hero">Get the free Playbook</button>
+        </form>
         <p class="fine" style="margin-top:12px">Takes 2 minutes. We'll send it straight to your inbox.</p>
       </div>
 
@@ -282,7 +283,10 @@ src="https://www.facebook.com/tr?id=1255832093376080&ev=PageView&noscript=1"
         <div class="form-card">
           <h3>Get the free Playbook</h3>
           <p class="sub">Enter your email and we'll send it straight to your inbox.</p>
-          <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="2166e4c5-549e-4734-b1fb-08651082cef0"></script>
+          <form class="email-form" id="sidebar-form" onsubmit="submitEmail(event,this)">
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <button type="submit" class="btn btn-primary">Get the free Playbook</button>
+          </form>
           <p class="fine" style="margin-top:10px">Takes 2 minutes. We'll send it straight to your inbox.</p>
         </div>
 
@@ -306,17 +310,34 @@ src="https://www.facebook.com/tr?id=1255832093376080&ev=PageView&noscript=1"
 </footer>
 
 <script>
-(function(){
+var MAKE_WEBHOOK = 'https://hook.us2.make.com/as616hr88jrln3g53dvtia1yvrqto8xn';
+var TALLY_BASE = 'https://tally.so/r/2EMrGD';
+
+function submitEmail(e, form){
+  e.preventDefault();
   var params = new URLSearchParams(window.location.search);
+  var email = form.querySelector('input[type=email]').value;
   var utms = ['utm_source','utm_medium','utm_campaign','utm_content'];
-  var query = utms.filter(function(k){ return params.get(k); })
-                  .map(function(k){ return k+'='+encodeURIComponent(params.get(k)); })
-                  .join('&');
-  if(!query) return;
-  document.querySelectorAll('a[href*="tally.so"]').forEach(function(a){
-    a.href = a.href + (a.href.indexOf('?') > -1 ? '&' : '?') + query;
+  var tallyParams = 'email=' + encodeURIComponent(email);
+  utms.forEach(function(k){ if(params.get(k)) tallyParams += '&' + k + '=' + encodeURIComponent(params.get(k)); });
+  var tallyUrl = TALLY_BASE + '?' + tallyParams;
+
+  fbq && fbq('trackCustom','PlaybookCTAClick');
+
+  fetch(MAKE_WEBHOOK, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      email: email,
+      utm_source: params.get('utm_source'),
+      utm_medium: params.get('utm_medium'),
+      utm_campaign: params.get('utm_campaign'),
+      utm_content: params.get('utm_content')
+    })
+  }).catch(function(){}).finally(function(){
+    window.location.href = tallyUrl;
   });
-})();
+}
 </script>
 
 </body>

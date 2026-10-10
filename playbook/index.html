@@ -129,11 +129,21 @@ src="https://www.facebook.com/tr?id=1255832093376080&ev=PageView&noscript=1"
   .bonus p{font-size:.92rem;color:var(--ink-soft)}
   .bonus strong{color:var(--ink)}
 
+  /* Email capture form */
+  .email-form{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+  .email-form input[type=email]{flex:1;min-width:0;font-family:var(--sans);font-size:1rem;padding:13px 16px;border:1.5px solid var(--ink);border-radius:10px;outline:none;background:var(--paper);color:var(--ink)}
+  .email-form input[type=email]::placeholder{color:var(--slate)}
+  .email-form input[type=email]:focus{border-color:var(--mark-deep);box-shadow:0 0 0 3px rgba(255,216,77,.25)}
+  .email-form .btn{white-space:nowrap}
+
   /* Sticky form sidebar */
   .form-sidebar{position:sticky;top:32px}
   .form-card{border:1.5px solid var(--ink);border-radius:var(--radius-lg);padding:32px;box-shadow:8px 8px 0 var(--ink)}
   .form-card h3{font-size:1.4rem;margin-bottom:8px}
   .form-card .sub{font-size:.95rem;color:var(--ink-soft);margin-bottom:22px}
+  .form-card .email-form{flex-direction:column}
+  .form-card .email-form input[type=email]{width:100%}
+  .form-card .email-form .btn{width:100%}
 
   /* Quote */
   .quote-section{padding:0 0 56px}
@@ -179,7 +189,10 @@ src="https://www.facebook.com/tr?id=1255832093376080&ev=PageView&noscript=1"
         <h1>The Booked-Call Newsletter Playbook</h1>
         <p class="sub">5 copy-and-paste emails that turn your list into sales calls.</p>
         <p class="meta">A 15-minute read, with a 2-minute scorecard.</p>
-        <a class="btn btn-primary btn-hero" href="https://tally.so/r/2EMrGD" onclick="fbq&&fbq('trackCustom','PlaybookCTAClick')">Get the free Playbook</a>
+        <form class="email-form" id="hero-form" onsubmit="submitEmail(event,this)">
+          <input type="email" name="email" placeholder="Enter your email" required>
+          <button type="submit" class="btn btn-primary btn-hero">Get the free Playbook</button>
+        </form>
         <p class="fine" style="margin-top:12px">Takes 2 minutes. We'll send it straight to your inbox.</p>
       </div>
 
@@ -270,7 +283,10 @@ src="https://www.facebook.com/tr?id=1255832093376080&ev=PageView&noscript=1"
         <div class="form-card">
           <h3>Get the free Playbook</h3>
           <p class="sub">Enter your email and we'll send it straight to your inbox.</p>
-          <a class="btn btn-primary" style="width:100%;margin-top:4px" href="https://tally.so/r/2EMrGD" onclick="fbq&&fbq('trackCustom','PlaybookCTAClick')">Get the free Playbook</a>
+          <form class="email-form" id="sidebar-form" onsubmit="submitEmail(event,this)">
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <button type="submit" class="btn btn-primary">Get the free Playbook</button>
+          </form>
           <p class="fine" style="margin-top:10px">Takes 2 minutes. We'll send it straight to your inbox.</p>
         </div>
 
@@ -294,17 +310,33 @@ src="https://www.facebook.com/tr?id=1255832093376080&ev=PageView&noscript=1"
 </footer>
 
 <script>
-(function(){
+var MAKE_WEBHOOK = 'https://hook.us2.make.com/as616hr88jrln3g53dvtia1yvrqto8xn';
+var TALLY_BASE = 'https://tally.so/r/2EMrGD';
+
+function getUtmQuery(){
   var params = new URLSearchParams(window.location.search);
   var utms = ['utm_source','utm_medium','utm_campaign','utm_content'];
-  var query = utms.filter(function(k){ return params.get(k); })
-                  .map(function(k){ return k+'='+encodeURIComponent(params.get(k)); })
-                  .join('&');
-  if(!query) return;
-  document.querySelectorAll('a[href*="tally.so"]').forEach(function(a){
-    a.href = a.href + (a.href.indexOf('?') > -1 ? '&' : '?') + query;
+  return utms.filter(function(k){ return params.get(k); })
+             .map(function(k){ return k+'='+encodeURIComponent(params.get(k)); })
+             .join('&');
+}
+
+function submitEmail(e, form){
+  e.preventDefault();
+  var email = form.querySelector('input[type=email]').value;
+  var utmQuery = getUtmQuery();
+  var tallyUrl = TALLY_BASE + (utmQuery ? '?' + utmQuery : '');
+
+  fbq && fbq('trackCustom','PlaybookCTAClick');
+
+  fetch(MAKE_WEBHOOK, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({email: email, utm_source: new URLSearchParams(window.location.search).get('utm_source'), utm_medium: new URLSearchParams(window.location.search).get('utm_medium'), utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign'), utm_content: new URLSearchParams(window.location.search).get('utm_content')})
+  }).catch(function(){}).finally(function(){
+    window.location.href = tallyUrl;
   });
-})();
+}
 </script>
 
 </body>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Book Your Strategy Call | Newsletter Engine</title>
+<title>Call Booked | Newsletter Engine</title>
 <!-- v2 -->
 <meta name="robots" content="noindex">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -62,8 +62,7 @@ src="https://www.facebook.com/tr?id=1255832093376080&ev=PageView&noscript=1"
   .card h1{font-size:clamp(1.9rem,4vw,2.6rem);margin-bottom:14px}
   .card .sub{font-size:1.1rem;color:var(--ink-soft);max-width:36em;margin:0 auto 36px}
 
-  .cal-wrap{margin-top:8px;border:1.5px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;min-height:600px}
-  .cal-wrap > div{min-height:600px}
+  .card .sub{margin-bottom:0}
 
   footer{padding:24px;font-size:.85rem;color:var(--slate);border-top:1px solid var(--line);text-align:center}
   footer a{color:var(--slate);text-decoration:none}
@@ -85,26 +84,8 @@ src="https://www.facebook.com/tr?id=1255832093376080&ev=PageView&noscript=1"
       </svg>
     </div>
 
-    <h1>You're a great fit.</h1>
-    <p class="sub">Pick a time below and we'll walk through exactly what your newsletter should look like and how we'd build it with you.</p>
-
-    <div class="cal-wrap">
-      <!-- Cal inline embed code begins -->
-      <div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-newsletter-engine-discovery-session"></div>
-      <script type="text/javascript">
-        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-        Cal("init", "newsletter-engine-discovery-session", {origin:"https://app.cal.com"});
-        Cal.config = Cal.config || {};
-        Cal.config.forwardQueryParams = true;
-        Cal.ns["newsletter-engine-discovery-session"]("inline", {
-          elementOrSelector:"#my-cal-inline-newsletter-engine-discovery-session",
-          config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"},
-          calLink: "newsletter-engine-discovery/newsletter-engine-discovery-session",
-        });
-        Cal.ns["newsletter-engine-discovery-session"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
-      </script>
-      <!-- Cal inline embed code ends -->
-    </div>
+    <h1>You're booked in.</h1>
+    <p class="sub">Check your inbox for a confirmation. We'll speak soon and map out exactly what your newsletter should look like.</p>
 
   </div>
 </main>
